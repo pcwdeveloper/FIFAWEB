@@ -15,6 +15,7 @@ import { Venue } from '../../../core/models/venue.model';
 import { Court, CourtRequest } from '../../../core/models/court.model';
 import { Sport } from '../../../core/models/sport.model';
 import { CourtFormDialog } from '../court-form-dialog/court-form-dialog';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-venue-detail',
@@ -113,6 +114,10 @@ export class VenueDetail implements OnInit {
       },
       error: () => this.snackBar.open('Failed to delete court', 'Dismiss', { duration: 4000 }),
     });
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 
   statusColor(status: Venue['status']): string {

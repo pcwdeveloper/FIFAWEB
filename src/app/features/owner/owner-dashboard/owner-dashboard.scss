@@ -36,7 +36,26 @@
   gap: 16px;
 }
 
-.venue-card .description {
-  color: var(--mat-sys-on-surface-variant);
-  font-size: 0.9rem;
+.venue-card {
+  .description {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem;
+  }
+
+  .address {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  mat-card-actions button mat-icon {
+    margin-right: 4px;
+  }
 }

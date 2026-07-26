@@ -11,10 +11,35 @@
   max-width: 420px;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+}
+
+.brand-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
 .auth-form {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  mat-icon[matPrefix] {
+    margin-right: 8px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  button[type='submit'] mat-icon {
+    margin-right: 4px;
+  }
 
   button {
     margin-top: 8px;

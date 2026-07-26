@@ -6,14 +6,17 @@
 @if (venue(); as v) {
   <div class="page-header">
     <h1>{{ v.name }}</h1>
-    <p class="subtitle">{{ v.address }}, {{ v.city }}</p>
+    <p class="subtitle"><mat-icon inline>location_on</mat-icon> {{ v.address }}, {{ v.city }}</p>
     @if (v.description) {
       <p class="description">{{ v.description }}</p>
     }
   </div>
 }
 
-<h2>Courts</h2>
+<h2>
+  <mat-icon class="title-icon">stadium</mat-icon>
+  Courts
+</h2>
 
 @if (loading()) {
   <p>Loading courts...</p>
@@ -28,11 +31,14 @@
     @for (court of courts(); track court.id) {
       <mat-card class="court-card" (click)="viewSlots(court)">
         <mat-card-header>
+          <div class="card-icon">
+            <mat-icon>{{ icon(court.sportName) }}</mat-icon>
+          </div>
           <mat-card-title>{{ court.name }}</mat-card-title>
           <mat-card-subtitle>{{ court.sportName }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>₹{{ court.pricePerSlot }} / slot</p>
+          <p class="price"><mat-icon inline>payments</mat-icon> ₹{{ court.pricePerSlot }} / slot</p>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-button>

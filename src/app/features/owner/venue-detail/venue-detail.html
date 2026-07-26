@@ -9,7 +9,7 @@
   <div class="page-header">
     <div>
       <h1>{{ v.name }}</h1>
-      <p class="subtitle">{{ v.address }}, {{ v.city }}</p>
+      <p class="subtitle"><mat-icon inline>location_on</mat-icon> {{ v.address }}, {{ v.city }}</p>
     </div>
     <mat-chip-set>
       <mat-chip [color]="statusColor(v.status)" highlighted>{{ v.status }}</mat-chip>
@@ -17,7 +17,10 @@
   </div>
 
   <div class="section-header">
-    <h2>Courts</h2>
+    <h2>
+      <mat-icon class="title-icon">stadium</mat-icon>
+      Courts
+    </h2>
     <button mat-flat-button color="primary" (click)="openCreateCourtDialog()">
       <mat-icon>add</mat-icon>
       Add court
@@ -39,23 +42,33 @@
 
       <ng-container matColumnDef="sportName">
         <th mat-header-cell *matHeaderCellDef>Sport</th>
-        <td mat-cell *matCellDef="let court">{{ court.sportName }}</td>
+        <td mat-cell *matCellDef="let court">
+          <span class="sport-cell"><mat-icon inline>{{ icon(court.sportName) }}</mat-icon> {{ court.sportName }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="pricePerSlot">
         <th mat-header-cell *matHeaderCellDef>Price / slot</th>
-        <td mat-cell *matCellDef="let court">{{ court.pricePerSlot }}</td>
+        <td mat-cell *matCellDef="let court">₹{{ court.pricePerSlot }}</td>
       </ng-container>
 
       <ng-container matColumnDef="active">
         <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let court">{{ court.active ? 'Active' : 'Inactive' }}</td>
+        <td mat-cell *matCellDef="let court">
+          <mat-icon inline [class.status-active]="court.active" [class.status-inactive]="!court.active">
+            {{ court.active ? 'check_circle' : 'cancel' }}
+          </mat-icon>
+          {{ court.active ? 'Active' : 'Inactive' }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let court">
-          <button mat-button [routerLink]="['/owner/venues', v.id, 'courts', court.id, 'slots']">Manage slots</button>
+          <button mat-button [routerLink]="['/owner/venues', v.id, 'courts', court.id, 'slots']">
+            <mat-icon>schedule</mat-icon>
+            Manage slots
+          </button>
           <button mat-icon-button (click)="openEditCourtDialog(court)" aria-label="Edit court">
             <mat-icon>edit</mat-icon>
           </button>

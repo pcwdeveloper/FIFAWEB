@@ -16,6 +16,7 @@ import { RazorpayCheckoutService } from '../../../core/services/razorpay-checkou
 import { Court } from '../../../core/models/court.model';
 import { Slot } from '../../../core/models/slot.model';
 import { BookingInitResponse } from '../../../core/models/booking.model';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 function today(): string {
   return new Date().toISOString().slice(0, 10);
@@ -74,6 +75,10 @@ export class CourtSlotsBrowse implements OnInit {
         this.snackBar.open('Failed to load slots', 'Dismiss', { duration: 4000 });
       },
     });
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 
   selectSlot(slot: Slot): void {

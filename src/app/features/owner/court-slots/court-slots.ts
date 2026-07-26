@@ -12,6 +12,7 @@ import { CourtService } from '../../../core/services/court.service';
 import { Slot, SlotRequest } from '../../../core/models/slot.model';
 import { Court } from '../../../core/models/court.model';
 import { SlotFormDialog } from '../slot-form-dialog/slot-form-dialog';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-court-slots',
@@ -101,6 +102,10 @@ export class CourtSlots implements OnInit {
         this.snackBar.open(message, 'Dismiss', { duration: 4000 });
       },
     });
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 
   statusColor(status: Slot['status']): string {

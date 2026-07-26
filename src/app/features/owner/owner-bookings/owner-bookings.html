@@ -3,7 +3,10 @@
   Back to my venues
 </a>
 
-<h1>Bookings</h1>
+<h1>
+  <mat-icon class="title-icon">event</mat-icon>
+  Bookings
+</h1>
 
 @if (loading()) {
   <p>Loading bookings...</p>
@@ -18,12 +21,15 @@
     @for (booking of bookings(); track booking.id) {
       <mat-card class="booking-card">
         <mat-card-header>
+          <div class="card-icon">
+            <mat-icon>{{ icon(booking.sportName) }}</mat-icon>
+          </div>
           <mat-card-title>{{ booking.venueName }} — {{ booking.courtName }}</mat-card-title>
-          <mat-card-subtitle>{{ booking.playerName }} · {{ booking.playerEmail }}</mat-card-subtitle>
+          <mat-card-subtitle><mat-icon inline>person</mat-icon> {{ booking.playerName }} · {{ booking.playerEmail }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>{{ booking.sportName }} · {{ booking.date }} · {{ booking.startTime }} – {{ booking.endTime }}</p>
-          <p>₹{{ booking.amount }}</p>
+          <p class="meta"><mat-icon inline>schedule</mat-icon> {{ booking.date }} · {{ booking.startTime }} – {{ booking.endTime }}</p>
+          <p class="meta"><mat-icon inline>payments</mat-icon> ₹{{ booking.amount }}</p>
           <mat-chip-set>
             <mat-chip [color]="statusColor(booking.status)" highlighted>{{ booking.status }}</mat-chip>
           </mat-chip-set>

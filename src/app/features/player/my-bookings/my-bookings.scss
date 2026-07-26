@@ -7,8 +7,43 @@
   text-decoration: none;
 }
 
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  color: var(--mat-sys-primary);
+}
+
 .booking-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
+}
+
+.booking-card {
+  mat-card-header {
+    align-items: flex-start;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+  color: var(--mat-sys-primary);
+  flex: 0 0 auto;
 }

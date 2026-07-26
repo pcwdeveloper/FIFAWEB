@@ -1,4 +1,9 @@
 <mat-card class="stat-tile">
-  <p class="label">{{ label }}</p>
-  <p class="value">{{ value }}</p>
+  @if (icon) {
+    <mat-icon class="tile-icon">{{ icon }}</mat-icon>
+  }
+  <div class="tile-text">
+    <p class="label">{{ label }}</p>
+    <p class="value">{{ value }}</p>
+  </div>
 </mat-card>

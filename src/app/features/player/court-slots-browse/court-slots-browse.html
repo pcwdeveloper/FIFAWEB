@@ -4,8 +4,11 @@
 </a>
 
 @if (court(); as c) {
-  <h1>{{ c.name }} — {{ c.sportName }}</h1>
-  <p class="subtitle">₹{{ c.pricePerSlot }} / slot</p>
+  <h1>
+    <mat-icon class="title-icon">{{ icon(c.sportName) }}</mat-icon>
+    {{ c.name }} — {{ c.sportName }}
+  </h1>
+  <p class="subtitle"><mat-icon inline>payments</mat-icon> ₹{{ c.pricePerSlot }} / slot</p>
 }
 
 <div class="date-picker">
@@ -28,14 +31,17 @@
     @for (slot of slots(); track slot.id) {
       <mat-card class="slot-card">
         <mat-card-content>
-          <p class="time">{{ slot.startTime }} – {{ slot.endTime }}</p>
+          <p class="time"><mat-icon inline>schedule</mat-icon> {{ slot.startTime }} – {{ slot.endTime }}</p>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-flat-button color="primary" [disabled]="processingSlotId() !== null" (click)="selectSlot(slot)">
             @if (processingSlotId() === slot.id) {
               <mat-spinner diameter="20"></mat-spinner>
             } @else {
-              Select
+              <ng-container>
+                <mat-icon>event_available</mat-icon>
+                Select
+              </ng-container>
             }
           </button>
         </mat-card-actions>

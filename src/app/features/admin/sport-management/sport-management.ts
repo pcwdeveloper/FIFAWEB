@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,10 +10,12 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SportService } from '../../../core/services/sport.service';
 import { Sport } from '../../../core/models/sport.model';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-sport-management',
   imports: [
+    RouterLink,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -87,6 +90,10 @@ export class SportManagement implements OnInit {
         this.snackBar.open(message, 'Dismiss', { duration: 4000 });
       },
     });
+  }
+
+  icon(sport: Sport): string {
+    return sportIcon(sport.name);
   }
 
   deleteSport(sport: Sport): void {

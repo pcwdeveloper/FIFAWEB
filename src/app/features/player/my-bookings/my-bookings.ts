@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookingService } from '../../../core/services/booking.service';
 import { Booking } from '../../../core/models/booking.model';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-my-bookings',
@@ -37,6 +38,10 @@ export class MyBookings implements OnInit {
         this.snackBar.open('Failed to load bookings', 'Dismiss', { duration: 4000 });
       },
     });
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 
   statusColor(status: Booking['status']): string {

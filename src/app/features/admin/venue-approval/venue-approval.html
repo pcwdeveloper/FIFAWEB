@@ -1,4 +1,12 @@
-<h1>Venue approvals</h1>
+<a routerLink="/admin" class="back-link">
+  <mat-icon>arrow_back</mat-icon>
+  Back to dashboard
+</a>
+
+<h1>
+  <mat-icon class="title-icon">fact_check</mat-icon>
+  Venue approvals
+</h1>
 
 <mat-tab-group [selectedIndex]="selectedTabIndex()" (selectedIndexChange)="onTabChange($event)">
   @for (tab of tabs; track tab) {
@@ -24,7 +32,7 @@
             <mat-card-subtitle>{{ venue.city }} · owned by {{ venue.ownerName }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <p>{{ venue.address }}</p>
+            <p class="address"><mat-icon inline>location_on</mat-icon> {{ venue.address }}</p>
             @if (venue.description) {
               <p class="description">{{ venue.description }}</p>
             }
@@ -34,8 +42,14 @@
           </mat-card-content>
           @if (venue.status === 'PENDING') {
             <mat-card-actions align="end">
-              <button mat-button color="warn" (click)="reject(venue)">Reject</button>
-              <button mat-flat-button color="primary" (click)="approve(venue)">Approve</button>
+              <button mat-button color="warn" (click)="reject(venue)">
+                <mat-icon>cancel</mat-icon>
+                Reject
+              </button>
+              <button mat-flat-button color="primary" (click)="approve(venue)">
+                <mat-icon>check_circle</mat-icon>
+                Approve
+              </button>
             </mat-card-actions>
           }
         </mat-card>

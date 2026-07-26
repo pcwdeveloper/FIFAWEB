@@ -6,7 +6,14 @@
 
   h1 {
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+}
+
+.title-icon {
+  color: var(--mat-sys-primary);
 }
 
 .search-bar {
@@ -19,6 +26,11 @@
     flex: 1;
     max-width: 320px;
   }
+
+  mat-icon[matPrefix] {
+    margin-right: 8px;
+    color: var(--mat-sys-on-surface-variant);
+  }
 }
 
 .venue-grid {
@@ -30,8 +42,37 @@
 .venue-card {
   cursor: pointer;
 
+  mat-card-header {
+    align-items: center;
+  }
+
   .description {
     color: var(--mat-sys-on-surface-variant);
     font-size: 0.9rem;
   }
+
+  .address {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+  color: var(--mat-sys-primary);
 }

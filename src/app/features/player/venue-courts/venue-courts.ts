@@ -8,6 +8,7 @@ import { VenueService } from '../../../core/services/venue.service';
 import { CourtService } from '../../../core/services/court.service';
 import { Venue } from '../../../core/models/venue.model';
 import { Court } from '../../../core/models/court.model';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-venue-courts',
@@ -48,5 +49,9 @@ export class VenueCourts implements OnInit {
 
   viewSlots(court: Court): void {
     this.router.navigate(['/player/venues', this.venueId, 'courts', court.id]);
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 }

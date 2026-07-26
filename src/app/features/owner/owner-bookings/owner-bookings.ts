@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookingService } from '../../../core/services/booking.service';
 import { OwnerBooking } from '../../../core/models/owner-booking.model';
+import { sportIcon } from '../../../core/utils/sport-icon.util';
 
 @Component({
   selector: 'app-owner-bookings',
@@ -32,6 +33,10 @@ export class OwnerBookings implements OnInit {
         this.snackBar.open('Failed to load bookings', 'Dismiss', { duration: 4000 });
       },
     });
+  }
+
+  icon(sportName: string): string {
+    return sportIcon(sportName);
   }
 
   statusColor(status: OwnerBooking['status']): string {

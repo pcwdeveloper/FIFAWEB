@@ -17,10 +17,10 @@
 
 @if (stats(); as s) {
   <div class="stat-row">
-    <app-stat-tile label="Venues" [value]="formatNumber(s.totalVenues)" />
-    <app-stat-tile label="Courts" [value]="formatNumber(s.totalCourts)" />
-    <app-stat-tile label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
-    <app-stat-tile label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
+    <app-stat-tile icon="storefront" label="Venues" [value]="formatNumber(s.totalVenues)" />
+    <app-stat-tile icon="sports_tennis" label="Courts" [value]="formatNumber(s.totalCourts)" />
+    <app-stat-tile icon="event_available" label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
+    <app-stat-tile icon="payments" label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
   </div>
 }
 
@@ -41,7 +41,7 @@
           <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>{{ venue.address }}</p>
+          <p class="address"><mat-icon inline>location_on</mat-icon> {{ venue.address }}</p>
           @if (venue.description) {
             <p class="description">{{ venue.description }}</p>
           }
@@ -50,7 +50,10 @@
           </mat-chip-set>
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-button (click)="viewCourts(venue)">Manage courts</button>
+          <button mat-button (click)="viewCourts(venue)">
+            <mat-icon>stadium</mat-icon>
+            Manage courts
+          </button>
           <button mat-icon-button (click)="openEditDialog(venue)" aria-label="Edit venue">
             <mat-icon>edit</mat-icon>
           </button>

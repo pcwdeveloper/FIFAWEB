@@ -7,9 +7,23 @@
   text-decoration: none;
 }
 
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.title-icon {
+  color: var(--mat-sys-primary);
+}
+
 .subtitle {
   margin: 4px 0 16px;
   color: var(--mat-sys-on-surface-variant);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .date-picker {
@@ -27,6 +41,9 @@
 }
 
 .time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 1.1rem;
   font-weight: 500;
 }

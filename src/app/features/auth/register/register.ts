@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/auth.service';
@@ -27,6 +28,7 @@ const ROLE_HOME: Record<Role, string> = {
     MatInputModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatIconModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './register.html',
@@ -39,6 +41,7 @@ export class Register {
   private readonly snackBar = inject(MatSnackBar);
 
   readonly isSubmitting = signal(false);
+  readonly hidePassword = signal(true);
 
   readonly form = this.fb.nonNullable.group({
     fullName: ['', [Validators.required]],
@@ -47,6 +50,10 @@ export class Register {
     password: ['', [Validators.required, Validators.minLength(8)]],
     role: ['PLAYER' as Extract<Role, 'PLAYER' | 'VENUE_OWNER'>, [Validators.required]],
   });
+
+  togglePasswordVisibility(): void {
+    this.hidePassword.set(!this.hidePassword());
+  }
 
   submit(): void {
     if (this.form.invalid) {

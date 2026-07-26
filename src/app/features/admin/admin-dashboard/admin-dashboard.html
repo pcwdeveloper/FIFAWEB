@@ -3,19 +3,22 @@
 
 @if (stats(); as s) {
   <div class="stat-row">
-    <app-stat-tile label="Players" [value]="formatNumber(s.totalPlayers)" />
-    <app-stat-tile label="Venue owners" [value]="formatNumber(s.totalOwners)" />
-    <app-stat-tile label="Pending venues" [value]="formatNumber(s.pendingVenues)" />
-    <app-stat-tile label="Approved venues" [value]="formatNumber(s.approvedVenues)" />
-    <app-stat-tile label="Sports" [value]="formatNumber(s.totalSports)" />
-    <app-stat-tile label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
-    <app-stat-tile label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
+    <app-stat-tile icon="groups" label="Players" [value]="formatNumber(s.totalPlayers)" />
+    <app-stat-tile icon="storefront" label="Venue owners" [value]="formatNumber(s.totalOwners)" />
+    <app-stat-tile icon="hourglass_top" label="Pending venues" [value]="formatNumber(s.pendingVenues)" />
+    <app-stat-tile icon="verified" label="Approved venues" [value]="formatNumber(s.approvedVenues)" />
+    <app-stat-tile icon="sports_soccer" label="Sports" [value]="formatNumber(s.totalSports)" />
+    <app-stat-tile icon="event_available" label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
+    <app-stat-tile icon="payments" label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
   </div>
 }
 
 <div class="admin-grid">
   <mat-card class="link-card" routerLink="/admin/venues">
     <mat-card-header>
+      <div class="card-icon">
+        <mat-icon>fact_check</mat-icon>
+      </div>
       <mat-card-title>Venue approvals</mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -25,6 +28,9 @@
 
   <mat-card class="link-card" routerLink="/admin/sports">
     <mat-card-header>
+      <div class="card-icon">
+        <mat-icon>sports_soccer</mat-icon>
+      </div>
       <mat-card-title>Sports master data</mat-card-title>
     </mat-card-header>
     <mat-card-content>

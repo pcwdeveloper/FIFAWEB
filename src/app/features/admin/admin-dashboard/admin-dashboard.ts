@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { StatsService } from '../../../core/services/stats.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { AdminStats } from '../../../core/models/stats.model';
@@ -9,7 +10,7 @@ import { formatCompactCurrency, formatCompactNumber } from '../../../core/utils/
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterLink, MatCardModule, StatTile],
+  imports: [RouterLink, MatCardModule, MatIconModule, StatTile],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss',
 })

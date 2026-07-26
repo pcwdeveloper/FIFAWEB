@@ -1,8 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue, VenueStatus } from '../../../core/models/venue.model';
@@ -11,7 +13,7 @@ const TABS: (VenueStatus | 'ALL')[] = ['PENDING', 'APPROVED', 'REJECTED', 'ALL']
 
 @Component({
   selector: 'app-venue-approval',
-  imports: [MatCardModule, MatButtonModule, MatChipsModule, MatTabsModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatChipsModule, MatTabsModule, MatIconModule],
   templateUrl: './venue-approval.html',
   styleUrl: './venue-approval.scss',
 })

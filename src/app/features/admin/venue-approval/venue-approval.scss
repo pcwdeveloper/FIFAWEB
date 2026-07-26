@@ -1,3 +1,22 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  color: var(--mat-sys-primary);
+}
+
 .tab-content {
   padding-top: 16px;
 }
@@ -8,7 +27,26 @@
   gap: 16px;
 }
 
-.venue-card .description {
-  color: var(--mat-sys-on-surface-variant);
-  font-size: 0.9rem;
+.venue-card {
+  .description {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem;
+  }
+
+  .address {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  mat-card-actions button mat-icon {
+    margin-right: 4px;
+  }
 }
