@@ -1,0 +1,64 @@
+<div class="page-header">
+  <div>
+    <h1>My venues</h1>
+    <p class="subtitle">Welcome, {{ authService.currentUser()?.fullName }}</p>
+  </div>
+  <div class="header-actions">
+    <button mat-button routerLink="/owner/bookings">
+      <mat-icon>event</mat-icon>
+      Bookings
+    </button>
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon>
+      Add venue
+    </button>
+  </div>
+</div>
+
+@if (stats(); as s) {
+  <div class="stat-row">
+    <app-stat-tile label="Venues" [value]="formatNumber(s.totalVenues)" />
+    <app-stat-tile label="Courts" [value]="formatNumber(s.totalCourts)" />
+    <app-stat-tile label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
+    <app-stat-tile label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
+  </div>
+}
+
+@if (loading()) {
+  <p>Loading venues...</p>
+} @else if (venues().length === 0) {
+  <mat-card>
+    <mat-card-content>
+      <p>You haven't added any venues yet. Click "Add venue" to list your first stadium/location.</p>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <div class="venue-grid">
+    @for (venue of venues(); track venue.id) {
+      <mat-card class="venue-card">
+        <mat-card-header>
+          <mat-card-title>{{ venue.name }}</mat-card-title>
+          <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ venue.address }}</p>
+          @if (venue.description) {
+            <p class="description">{{ venue.description }}</p>
+          }
+          <mat-chip-set>
+            <mat-chip [color]="statusColor(venue.status)" highlighted>{{ venue.status }}</mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button (click)="viewCourts(venue)">Manage courts</button>
+          <button mat-icon-button (click)="openEditDialog(venue)" aria-label="Edit venue">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteVenue(venue)" aria-label="Delete venue">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}

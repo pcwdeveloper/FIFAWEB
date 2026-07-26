@@ -1,0 +1,32 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+}
+
+.subtitle {
+  margin: 4px 0 16px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.date-picker {
+  margin-bottom: 16px;
+
+  mat-form-field {
+    max-width: 220px;
+  }
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.time {
+  font-size: 1.1rem;
+  font-weight: 500;
+}

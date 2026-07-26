@@ -1,0 +1,72 @@
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (venue(); as v) {
+  <a routerLink="/owner" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Back to my venues
+  </a>
+
+  <div class="page-header">
+    <div>
+      <h1>{{ v.name }}</h1>
+      <p class="subtitle">{{ v.address }}, {{ v.city }}</p>
+    </div>
+    <mat-chip-set>
+      <mat-chip [color]="statusColor(v.status)" highlighted>{{ v.status }}</mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <div class="section-header">
+    <h2>Courts</h2>
+    <button mat-flat-button color="primary" (click)="openCreateCourtDialog()">
+      <mat-icon>add</mat-icon>
+      Add court
+    </button>
+  </div>
+
+  @if (courts().length === 0) {
+    <mat-card>
+      <mat-card-content>
+        <p>No courts yet. Add a court for each playing area (e.g. Badminton Court 1, Football Ground).</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <table mat-table [dataSource]="courts()" class="courts-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Court</th>
+        <td mat-cell *matCellDef="let court">{{ court.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sportName">
+        <th mat-header-cell *matHeaderCellDef>Sport</th>
+        <td mat-cell *matCellDef="let court">{{ court.sportName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="pricePerSlot">
+        <th mat-header-cell *matHeaderCellDef>Price / slot</th>
+        <td mat-cell *matCellDef="let court">{{ court.pricePerSlot }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let court">{{ court.active ? 'Active' : 'Inactive' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let court">
+          <button mat-button [routerLink]="['/owner/venues', v.id, 'courts', court.id, 'slots']">Manage slots</button>
+          <button mat-icon-button (click)="openEditCourtDialog(court)" aria-label="Edit court">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteCourt(court)" aria-label="Delete court">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  }
+}

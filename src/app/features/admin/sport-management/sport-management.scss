@@ -1,0 +1,13 @@
+.form-card {
+  margin-bottom: 16px;
+}
+
+.sport-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  mat-form-field {
+    flex: 1;
+  }
+}

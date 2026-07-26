@@ -1,0 +1,45 @@
+<a [routerLink]="['/player/venues', venueId]" class="back-link">
+  <mat-icon>arrow_back</mat-icon>
+  Back to courts
+</a>
+
+@if (court(); as c) {
+  <h1>{{ c.name }} — {{ c.sportName }}</h1>
+  <p class="subtitle">₹{{ c.pricePerSlot }} / slot</p>
+}
+
+<div class="date-picker">
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" [(ngModel)]="selectedDate" (ngModelChange)="loadSlots()" />
+  </mat-form-field>
+</div>
+
+@if (loading()) {
+  <p>Loading slots...</p>
+} @else if (slots().length === 0) {
+  <mat-card>
+    <mat-card-content>
+      <p>No available slots on this date. Try another date.</p>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <div class="slot-grid">
+    @for (slot of slots(); track slot.id) {
+      <mat-card class="slot-card">
+        <mat-card-content>
+          <p class="time">{{ slot.startTime }} – {{ slot.endTime }}</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-flat-button color="primary" [disabled]="processingSlotId() !== null" (click)="selectSlot(slot)">
+            @if (processingSlotId() === slot.id) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              Select
+            }
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}

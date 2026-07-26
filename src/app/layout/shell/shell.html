@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <span class="brand">FIFA Courts</span>
+  <span class="spacer"></span>
+
+  @if (authService.currentUser(); as user) {
+    <span class="user-info">{{ user.fullName }} · {{ user.role }}</span>
+    <button mat-icon-button (click)="logout()" aria-label="Log out">
+      <mat-icon>logout</mat-icon>
+    </button>
+  }
+</mat-toolbar>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>

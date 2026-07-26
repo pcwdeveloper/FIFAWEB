@@ -1,0 +1,34 @@
+<h1>Welcome, {{ authService.currentUser()?.fullName }}</h1>
+<p class="subtitle">Admin dashboard</p>
+
+@if (stats(); as s) {
+  <div class="stat-row">
+    <app-stat-tile label="Players" [value]="formatNumber(s.totalPlayers)" />
+    <app-stat-tile label="Venue owners" [value]="formatNumber(s.totalOwners)" />
+    <app-stat-tile label="Pending venues" [value]="formatNumber(s.pendingVenues)" />
+    <app-stat-tile label="Approved venues" [value]="formatNumber(s.approvedVenues)" />
+    <app-stat-tile label="Sports" [value]="formatNumber(s.totalSports)" />
+    <app-stat-tile label="Confirmed bookings" [value]="formatNumber(s.confirmedBookings)" />
+    <app-stat-tile label="Total revenue" [value]="formatCurrency(s.totalRevenue)" />
+  </div>
+}
+
+<div class="admin-grid">
+  <mat-card class="link-card" routerLink="/admin/venues">
+    <mat-card-header>
+      <mat-card-title>Venue approvals</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Review and approve or reject venues submitted by owners.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="link-card" routerLink="/admin/sports">
+    <mat-card-header>
+      <mat-card-title>Sports master data</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Manage the list of sports available across the platform.</p>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,14 @@
+.tab-content {
+  padding-top: 16px;
+}
+
+.venue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.venue-card .description {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9rem;
+}

@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Find a venue</h1>
+  <button mat-button routerLink="/player/bookings">
+    <mat-icon>event</mat-icon>
+    My bookings
+  </button>
+</div>
+
+<div class="search-bar">
+  <mat-form-field appearance="outline">
+    <mat-label>Filter by city</mat-label>
+    <input matInput [(ngModel)]="cityFilter" (keyup.enter)="search()" placeholder="e.g. Pune" />
+  </mat-form-field>
+  <button mat-flat-button color="primary" (click)="search()">Search</button>
+</div>
+
+@if (loading()) {
+  <p>Loading venues...</p>
+} @else if (venues().length === 0) {
+  <mat-card>
+    <mat-card-content>
+      <p>No venues found. Try a different city or check back later.</p>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <div class="venue-grid">
+    @for (venue of venues(); track venue.id) {
+      <mat-card class="venue-card" (click)="viewCourts(venue)">
+        <mat-card-header>
+          <mat-card-title>{{ venue.name }}</mat-card-title>
+          <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ venue.address }}</p>
+          @if (venue.description) {
+            <p class="description">{{ venue.description }}</p>
+          }
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button>
+            View courts
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}

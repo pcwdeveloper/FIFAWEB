@@ -1,0 +1,46 @@
+<a routerLink="/player" class="back-link">
+  <mat-icon>arrow_back</mat-icon>
+  Back to venues
+</a>
+
+@if (venue(); as v) {
+  <div class="page-header">
+    <h1>{{ v.name }}</h1>
+    <p class="subtitle">{{ v.address }}, {{ v.city }}</p>
+    @if (v.description) {
+      <p class="description">{{ v.description }}</p>
+    }
+  </div>
+}
+
+<h2>Courts</h2>
+
+@if (loading()) {
+  <p>Loading courts...</p>
+} @else if (courts().length === 0) {
+  <mat-card>
+    <mat-card-content>
+      <p>This venue has no courts listed yet.</p>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <div class="court-grid">
+    @for (court of courts(); track court.id) {
+      <mat-card class="court-card" (click)="viewSlots(court)">
+        <mat-card-header>
+          <mat-card-title>{{ court.name }}</mat-card-title>
+          <mat-card-subtitle>{{ court.sportName }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>₹{{ court.pricePerSlot }} / slot</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button>
+            View slots
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}

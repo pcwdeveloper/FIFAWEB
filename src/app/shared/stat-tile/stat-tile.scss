@@ -1,0 +1,16 @@
+.stat-tile {
+  padding: 16px 20px;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.value {
+  margin: 4px 0 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  font-variant-numeric: normal;
+}
