@@ -22,7 +22,7 @@
 </div>
 
 @if (loading()) {
-  <p>Loading venues...</p>
+  <app-loading-indicator label="Loading venues..." />
 } @else if (venues().length === 0) {
   <mat-card>
     <mat-card-content>
@@ -32,7 +32,7 @@
 } @else {
   <div class="venue-grid">
     @for (venue of venues(); track venue.id) {
-      <mat-card class="venue-card" (click)="viewCourts(venue)">
+      <mat-card class="venue-card hoverable-card" (click)="viewCourts(venue)">
         <mat-card-header>
           <div class="card-icon">
             <mat-icon>storefront</mat-icon>

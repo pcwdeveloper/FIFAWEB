@@ -9,10 +9,11 @@ import { CourtService } from '../../../core/services/court.service';
 import { Venue } from '../../../core/models/venue.model';
 import { Court } from '../../../core/models/court.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-venue-courts',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, LoadingIndicator],
   templateUrl: './venue-courts.html',
   styleUrl: './venue-courts.scss',
 })

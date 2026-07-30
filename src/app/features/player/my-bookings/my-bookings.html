@@ -9,7 +9,7 @@
 </h1>
 
 @if (loading()) {
-  <p>Loading bookings...</p>
+  <app-loading-indicator label="Loading bookings..." />
 } @else if (bookings().length === 0) {
   <mat-card>
     <mat-card-content>

@@ -1,5 +1,5 @@
 @if (loading()) {
-  <p>Loading...</p>
+  <app-loading-indicator label="Loading..." />
 } @else if (venue(); as v) {
   <a routerLink="/owner" class="back-link">
     <mat-icon>arrow_back</mat-icon>

@@ -8,10 +8,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookingService } from '../../../core/services/booking.service';
 import { OwnerBooking } from '../../../core/models/owner-booking.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-owner-bookings',
-  imports: [RouterLink, MatCardModule, MatChipsModule, MatIconModule, MatButtonModule],
+  imports: [RouterLink, MatCardModule, MatChipsModule, MatIconModule, MatButtonModule, LoadingIndicator],
   templateUrl: './owner-bookings.html',
   styleUrl: './owner-bookings.scss',
 })

@@ -26,7 +26,7 @@ export class RazorpayCheckoutService {
         handler: (response) => resolve(response),
         modal: { ondismiss: () => resolve(null) },
         prefill: { name: options.prefillName, email: options.prefillEmail },
-        theme: { color: '#0057c2' },
+        theme: { color: '#026e00' },
       });
       razorpay.open();
     });

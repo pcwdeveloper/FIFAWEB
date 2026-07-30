@@ -13,10 +13,11 @@ import { Slot, SlotRequest } from '../../../core/models/slot.model';
 import { Court } from '../../../core/models/court.model';
 import { SlotFormDialog } from '../slot-form-dialog/slot-form-dialog';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-court-slots',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, MatTableModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, MatTableModule, LoadingIndicator],
   templateUrl: './court-slots.html',
   styleUrl: './court-slots.scss',
 })

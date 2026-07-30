@@ -8,12 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue, VenueStatus } from '../../../core/models/venue.model';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 const TABS: (VenueStatus | 'ALL')[] = ['PENDING', 'APPROVED', 'REJECTED', 'ALL'];
 
 @Component({
   selector: 'app-venue-approval',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatChipsModule, MatTabsModule, MatIconModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatChipsModule, MatTabsModule, MatIconModule, LoadingIndicator],
   templateUrl: './venue-approval.html',
   styleUrl: './venue-approval.scss',
 })

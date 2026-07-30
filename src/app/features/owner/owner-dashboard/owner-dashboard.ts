@@ -14,10 +14,11 @@ import { OwnerStats } from '../../../core/models/stats.model';
 import { VenueFormDialog } from '../venue-form-dialog/venue-form-dialog';
 import { StatTile } from '../../../shared/stat-tile/stat-tile';
 import { formatCompactCurrency, formatCompactNumber } from '../../../core/utils/format.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-owner-dashboard',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, StatTile],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, StatTile, LoadingIndicator],
   templateUrl: './owner-dashboard.html',
   styleUrl: './owner-dashboard.scss',
 })

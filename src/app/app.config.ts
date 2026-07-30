@@ -12,6 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthService } from './core/services/auth.service';
+import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideAppInitializer(() => inject(AuthService).tryRestoreSession()),
+    provideAppInitializer(() => {
+      inject(ThemeService);
+      return inject(AuthService).tryRestoreSession();
+    }),
   ],
 };

@@ -16,7 +16,7 @@
 
 <div class="tab-content">
   @if (loading()) {
-    <p>Loading venues...</p>
+    <app-loading-indicator label="Loading venues..." />
   } @else if (venues().length === 0) {
     <mat-card>
       <mat-card-content>

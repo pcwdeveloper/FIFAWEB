@@ -16,6 +16,7 @@ import { Court, CourtRequest } from '../../../core/models/court.model';
 import { Sport } from '../../../core/models/sport.model';
 import { CourtFormDialog } from '../court-form-dialog/court-form-dialog';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-venue-detail',
@@ -25,8 +26,7 @@ import { sportIcon } from '../../../core/utils/sport-icon.util';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatTableModule,
-  ],
+    MatTableModule, LoadingIndicator,],
   templateUrl: './venue-detail.html',
   styleUrl: './venue-detail.scss',
 })

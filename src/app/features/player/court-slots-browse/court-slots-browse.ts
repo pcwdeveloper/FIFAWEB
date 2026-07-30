@@ -17,6 +17,7 @@ import { Court } from '../../../core/models/court.model';
 import { Slot } from '../../../core/models/slot.model';
 import { BookingInitResponse } from '../../../core/models/booking.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 function today(): string {
   return new Date().toISOString().slice(0, 10);
@@ -32,8 +33,7 @@ function today(): string {
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule,
-  ],
+    MatProgressSpinnerModule, LoadingIndicator,],
   templateUrl: './court-slots-browse.html',
   styleUrl: './court-slots-browse.scss',
 })

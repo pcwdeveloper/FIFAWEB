@@ -3,6 +3,10 @@
   <span class="brand">FIFA Courts</span>
   <span class="spacer"></span>
 
+  <button mat-icon-button (click)="toggleTheme()" [matTooltip]="themeLabel()" aria-label="Toggle color theme">
+    <mat-icon>{{ themeIcon() }}</mat-icon>
+  </button>
+
   @if (authService.currentUser(); as user) {
     <mat-icon class="user-icon">account_circle</mat-icon>
     <span class="user-info">{{ user.fullName }} · {{ user.role }}</span>

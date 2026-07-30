@@ -19,7 +19,7 @@
 </h2>
 
 @if (loading()) {
-  <p>Loading courts...</p>
+  <app-loading-indicator label="Loading courts..." />
 } @else if (courts().length === 0) {
   <mat-card>
     <mat-card-content>
@@ -29,7 +29,7 @@
 } @else {
   <div class="court-grid">
     @for (court of courts(); track court.id) {
-      <mat-card class="court-card" (click)="viewSlots(court)">
+      <mat-card class="court-card hoverable-card" (click)="viewSlots(court)">
         <mat-card-header>
           <div class="card-icon">
             <mat-icon>{{ icon(court.sportName) }}</mat-icon>

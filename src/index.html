@@ -2,13 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Fifaweb</title>
+  <title>FIFA Courts</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    // Apply the saved theme before first paint, so there's no flash of the wrong color scheme.
+    (function () {
+      try {
+        var mode = localStorage.getItem('fifa_theme_mode');
+        document.documentElement.style.colorScheme = (mode === 'light' || mode === 'dark') ? mode : 'light dark';
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

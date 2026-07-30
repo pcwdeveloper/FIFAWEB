@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SportService } from '../../../core/services/sport.service';
 import { Sport } from '../../../core/models/sport.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-sport-management',
@@ -22,8 +23,7 @@ import { sportIcon } from '../../../core/utils/sport-icon.util';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatListModule,
-  ],
+    MatListModule, LoadingIndicator,],
   templateUrl: './sport-management.html',
   styleUrl: './sport-management.scss',
 })

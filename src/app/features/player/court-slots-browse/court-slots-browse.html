@@ -19,7 +19,7 @@
 </div>
 
 @if (loading()) {
-  <p>Loading slots...</p>
+  <app-loading-indicator label="Loading slots..." />
 } @else if (slots().length === 0) {
   <mat-card>
     <mat-card-content>

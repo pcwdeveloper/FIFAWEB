@@ -9,10 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue } from '../../../core/models/venue.model';
+import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-player-dashboard',
-  imports: [RouterLink, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [RouterLink, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, LoadingIndicator],
   templateUrl: './player-dashboard.html',
   styleUrl: './player-dashboard.scss',
 })
