@@ -9,9 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SlotService } from '../../../core/services/slot.service';
 import { CourtService } from '../../../core/services/court.service';
-import { Slot, SlotRequest } from '../../../core/models/slot.model';
+import { BulkSlotRequest, Slot, SlotRequest, TIME_OF_DAY_INFO } from '../../../core/models/slot.model';
 import { Court } from '../../../core/models/court.model';
 import { SlotFormDialog } from '../slot-form-dialog/slot-form-dialog';
+import { BulkSlotFormDialog } from '../bulk-slot-form-dialog/bulk-slot-form-dialog';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
@@ -35,7 +36,7 @@ export class CourtSlots implements OnInit {
   readonly slots = signal<Slot[]>([]);
   readonly loading = signal(true);
 
-  readonly displayedColumns = ['date', 'startTime', 'endTime', 'status', 'actions'];
+  readonly displayedColumns = ['date', 'startTime', 'endTime', 'timeOfDay', 'price', 'status', 'actions'];
 
   ngOnInit(): void {
     this.loadAll();
@@ -105,8 +106,32 @@ export class CourtSlots implements OnInit {
     });
   }
 
+  openBulkCreateDialog(): void {
+    const ref = this.dialog.open(BulkSlotFormDialog, { width: '760px', maxWidth: '95vw' });
+    ref.afterClosed().subscribe((request: BulkSlotRequest | undefined) => {
+      if (!request) return;
+      this.slotService.createBulk(this.courtId, request).subscribe({
+        next: (result) => {
+          const skippedMessage = result.skippedCount > 0 ? `, skipped ${result.skippedCount} conflicting slot(s)` : '';
+          this.snackBar.open(`Created ${result.created.length} slots${skippedMessage}`, 'Dismiss', {
+            duration: 5000,
+          });
+          this.loadAll();
+        },
+        error: (err) => {
+          const message = err?.error?.message ?? 'Failed to generate slots';
+          this.snackBar.open(message, 'Dismiss', { duration: 5000 });
+        },
+      });
+    });
+  }
+
   icon(sportName: string): string {
     return sportIcon(sportName);
+  }
+
+  timeOfDayLabel(slot: Slot): string {
+    return slot.timeOfDay ? (TIME_OF_DAY_INFO[slot.timeOfDay]?.label ?? '—') : '—';
   }
 
   statusColor(status: Slot['status']): string {

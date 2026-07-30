@@ -7,6 +7,19 @@
   text-decoration: none;
 }
 
+.venue-hero {
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 .page-header {
   margin-bottom: 24px;
 

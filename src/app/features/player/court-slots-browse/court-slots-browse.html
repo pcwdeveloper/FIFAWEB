@@ -8,7 +8,6 @@
     <mat-icon class="title-icon">{{ icon(c.sportName) }}</mat-icon>
     {{ c.name }} — {{ c.sportName }}
   </h1>
-  <p class="subtitle"><mat-icon inline>payments</mat-icon> ₹{{ c.pricePerSlot }} / slot</p>
 }
 
 <div class="date-picker">
@@ -32,6 +31,8 @@
       <mat-card class="slot-card">
         <mat-card-content>
           <p class="time"><mat-icon inline>schedule</mat-icon> {{ slot.startTime }} – {{ slot.endTime }}</p>
+          <p class="time-of-day">{{ timeOfDayLabel(slot) }}</p>
+          <p class="price"><mat-icon inline>payments</mat-icon> ₹{{ slot.price }}</p>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-flat-button color="primary" [disabled]="processingSlotId() !== null" (click)="selectSlot(slot)">

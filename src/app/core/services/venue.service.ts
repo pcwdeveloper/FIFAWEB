@@ -48,4 +48,10 @@ export class VenueService {
     }
     return this.http.get<Venue[]>(`${this.apiUrl}/public`, { params });
   }
+
+  uploadThumbnail(id: number, file: File): Observable<Venue> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<Venue>(`${this.apiUrl}/${id}/thumbnail`, formData);
+  }
 }

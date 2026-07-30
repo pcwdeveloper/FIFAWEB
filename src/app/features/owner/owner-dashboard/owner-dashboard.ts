@@ -9,11 +9,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/auth.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { StatsService } from '../../../core/services/stats.service';
-import { Venue, VenueRequest } from '../../../core/models/venue.model';
+import { Venue } from '../../../core/models/venue.model';
 import { OwnerStats } from '../../../core/models/stats.model';
-import { VenueFormDialog } from '../venue-form-dialog/venue-form-dialog';
+import { VenueFormDialog, VenueFormResult } from '../venue-form-dialog/venue-form-dialog';
 import { StatTile } from '../../../shared/stat-tile/stat-tile';
 import { formatCompactCurrency, formatCompactNumber } from '../../../core/utils/format.util';
+import { resolveVenueThumbnailUrl } from '../../../core/utils/asset-url.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
@@ -49,6 +50,10 @@ export class OwnerDashboard implements OnInit {
     return formatCompactCurrency(value);
   }
 
+  thumbnailUrl(venue: Venue): string | null {
+    return resolveVenueThumbnailUrl(venue.thumbnailFileName);
+  }
+
   loadVenues(): void {
     this.loading.set(true);
     this.venueService.listMine().subscribe({
@@ -65,12 +70,23 @@ export class OwnerDashboard implements OnInit {
 
   openCreateDialog(): void {
     const ref = this.dialog.open(VenueFormDialog, { data: null });
-    ref.afterClosed().subscribe((request: VenueRequest | undefined) => {
-      if (!request) return;
+    ref.afterClosed().subscribe((result: VenueFormResult | undefined) => {
+      if (!result) return;
+      const { request, thumbnailFile } = result;
       this.venueService.create(request).subscribe({
-        next: () => {
+        next: (venue) => {
           this.snackBar.open('Venue created — pending admin approval', 'Dismiss', { duration: 4000 });
-          this.loadVenues();
+          if (thumbnailFile) {
+            this.venueService.uploadThumbnail(venue.id, thumbnailFile).subscribe({
+              next: () => this.loadVenues(),
+              error: () => {
+                this.snackBar.open('Venue created, but the photo failed to upload', 'Dismiss', { duration: 4000 });
+                this.loadVenues();
+              },
+            });
+          } else {
+            this.loadVenues();
+          }
         },
         error: () => this.snackBar.open('Failed to create venue', 'Dismiss', { duration: 4000 }),
       });
@@ -79,12 +95,23 @@ export class OwnerDashboard implements OnInit {
 
   openEditDialog(venue: Venue): void {
     const ref = this.dialog.open(VenueFormDialog, { data: venue });
-    ref.afterClosed().subscribe((request: VenueRequest | undefined) => {
-      if (!request) return;
+    ref.afterClosed().subscribe((result: VenueFormResult | undefined) => {
+      if (!result) return;
+      const { request, thumbnailFile } = result;
       this.venueService.update(venue.id, request).subscribe({
         next: () => {
           this.snackBar.open('Venue updated', 'Dismiss', { duration: 4000 });
-          this.loadVenues();
+          if (thumbnailFile) {
+            this.venueService.uploadThumbnail(venue.id, thumbnailFile).subscribe({
+              next: () => this.loadVenues(),
+              error: () => {
+                this.snackBar.open('Venue updated, but the photo failed to upload', 'Dismiss', { duration: 4000 });
+                this.loadVenues();
+              },
+            });
+          } else {
+            this.loadVenues();
+          }
         },
         error: () => this.snackBar.open('Failed to update venue', 'Dismiss', { duration: 4000 }),
       });

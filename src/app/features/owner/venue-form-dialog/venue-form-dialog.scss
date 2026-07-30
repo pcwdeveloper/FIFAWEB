@@ -1,6 +1,109 @@
-.form-content {
+.dialog-header {
+  padding: 16px 24px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.85rem;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    font-size: 1rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.thumbnail-picker {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 340px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 160px;
+  margin: 20px 0 8px;
+  border: 2px dashed var(--mat-sys-outline-variant, #ccc);
+  border-radius: 16px;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--mat-sys-tertiary);
+    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 6%, transparent);
+  }
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 32px;
+  min-width: 500px;
+  max-width: 640px;
+  padding-top: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    min-width: 0;
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+
+  label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--mat-sys-tertiary);
+  }
+
+  input,
+  textarea {
+    border: none;
+    border-bottom: 1px solid var(--mat-sys-outline-variant, #ccc);
+    background: transparent;
+    color: var(--mat-sys-on-surface);
+    font: inherit;
+    font-size: 1rem;
+    padding: 4px 0 8px;
+    resize: vertical;
+
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid var(--mat-sys-tertiary);
+      padding-bottom: 7px;
+    }
+  }
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: var(--mat-sys-error);
+}
+
+.submit-button {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  padding: 0 32px;
 }

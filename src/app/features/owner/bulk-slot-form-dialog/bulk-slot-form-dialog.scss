@@ -1,0 +1,82 @@
+.dialog-header {
+  padding: 16px 24px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+    max-width: 480px;
+  }
+}
+
+.month-picker {
+  display: flex;
+  gap: 12px;
+}
+
+.month-field {
+  width: 160px;
+}
+
+.year-field {
+  width: 120px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 680px;
+
+  @media (max-width: 760px) {
+    min-width: 0;
+  }
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &:not(.disabled):hover {
+    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 5%, transparent);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  mat-checkbox {
+    flex: 1 1 110px;
+  }
+
+  .category-name {
+    font-weight: 700;
+  }
+
+  .time-field {
+    width: 110px;
+  }
+
+  .interval-field {
+    width: 110px;
+  }
+
+  .price-field {
+    width: 120px;
+  }
+
+  mat-form-field {
+    margin-bottom: -1.25em;
+  }
+}

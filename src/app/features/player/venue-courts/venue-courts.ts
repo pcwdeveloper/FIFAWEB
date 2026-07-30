@@ -9,6 +9,7 @@ import { CourtService } from '../../../core/services/court.service';
 import { Venue } from '../../../core/models/venue.model';
 import { Court } from '../../../core/models/court.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
+import { resolveVenueThumbnailUrl } from '../../../core/utils/asset-url.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
@@ -54,5 +55,9 @@ export class VenueCourts implements OnInit {
 
   icon(sportName: string): string {
     return sportIcon(sportName);
+  }
+
+  thumbnailUrl(venue: Venue): string | null {
+    return resolveVenueThumbnailUrl(venue.thumbnailFileName);
   }
 }

@@ -36,6 +36,13 @@
   <div class="venue-grid">
     @for (venue of venues(); track venue.id) {
       <mat-card class="venue-card">
+        <div class="venue-thumbnail">
+          @if (thumbnailUrl(venue); as url) {
+            <img [src]="url" alt="{{ venue.name }}" />
+          } @else {
+            <mat-icon>stadium</mat-icon>
+          }
+        </div>
         <mat-card-header>
           <mat-card-title>{{ venue.name }}</mat-card-title>
           <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>

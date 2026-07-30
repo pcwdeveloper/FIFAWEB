@@ -11,19 +11,11 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 0;
+  margin-bottom: 16px;
 }
 
 .title-icon {
   color: var(--mat-sys-primary);
-}
-
-.subtitle {
-  margin: 4px 0 16px;
-  color: var(--mat-sys-on-surface-variant);
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }
 
 .date-picker {
@@ -46,4 +38,19 @@ h1 {
   gap: 4px;
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.time-of-day {
+  margin: 2px 0 8px;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-weight: 600;
+  color: var(--mat-sys-tertiary);
 }

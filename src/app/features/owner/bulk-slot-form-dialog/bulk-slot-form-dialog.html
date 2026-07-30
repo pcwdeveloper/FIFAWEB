@@ -1,0 +1,71 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>Generate slots for a month</h2>
+  <p class="subtitle">
+    Pick a month, then set a time range, interval and price for each time of day — we'll create every slot for the
+    whole month in one go. Time ranges can't overlap.
+  </p>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="month-picker">
+      <mat-form-field appearance="outline" class="month-field">
+        <mat-label>Month</mat-label>
+        <mat-select formControlName="month">
+          @for (name of monthNames; track name; let i = $index) {
+            <mat-option [value]="i + 1">{{ name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="year-field">
+        <mat-label>Year</mat-label>
+        <mat-select formControlName="year">
+          @for (year of yearOptions; track year) {
+            <mat-option [value]="year">{{ year }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="category-list">
+      @for (key of categoryKeys; track key) {
+        <div class="category-row" [formGroupName]="key" [class.disabled]="!isEnabled(key)">
+          <mat-checkbox formControlName="enabled">
+            <span class="category-name">{{ categoryLabel(key) }}</span>
+          </mat-checkbox>
+
+          <mat-form-field appearance="outline" class="time-field">
+            <mat-label>Start</mat-label>
+            <input matInput type="time" formControlName="startTime" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="time-field">
+            <mat-label>End</mat-label>
+            <input matInput type="time" formControlName="endTime" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="interval-field">
+            <mat-label>Interval</mat-label>
+            <mat-select formControlName="intervalMinutes">
+              @for (minutes of intervalOptions; track minutes) {
+                <mat-option [value]="minutes">{{ minutes }} min</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="price-field">
+            <mat-label>Price</mat-label>
+            <span matPrefix>₹&nbsp;</span>
+            <input matInput type="number" min="0" formControlName="price" />
+          </mat-form-field>
+        </div>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Generate</button>
+  </mat-dialog-actions>
+</form>

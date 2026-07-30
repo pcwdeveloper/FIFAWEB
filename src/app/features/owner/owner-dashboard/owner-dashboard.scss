@@ -37,6 +37,29 @@
 }
 
 .venue-card {
+  overflow: hidden;
+
+  .venue-thumbnail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    background: color-mix(in srgb, var(--mat-sys-tertiary) 12%, var(--mat-sys-surface-variant));
+    color: var(--mat-sys-tertiary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
   .description {
     color: var(--mat-sys-on-surface-variant);
     font-size: 0.9rem;

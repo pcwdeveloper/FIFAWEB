@@ -25,6 +25,11 @@
   color: var(--mat-sys-primary);
 }
 
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .slots-table {
   width: 100%;
 

@@ -14,7 +14,7 @@ import { SlotService } from '../../../core/services/slot.service';
 import { BookingService } from '../../../core/services/booking.service';
 import { RazorpayCheckoutService } from '../../../core/services/razorpay-checkout.service';
 import { Court } from '../../../core/models/court.model';
-import { Slot } from '../../../core/models/slot.model';
+import { Slot, TIME_OF_DAY_INFO } from '../../../core/models/slot.model';
 import { BookingInitResponse } from '../../../core/models/booking.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
@@ -79,6 +79,10 @@ export class CourtSlotsBrowse implements OnInit {
 
   icon(sportName: string): string {
     return sportIcon(sportName);
+  }
+
+  timeOfDayLabel(slot: Slot): string {
+    return slot.timeOfDay ? (TIME_OF_DAY_INFO[slot.timeOfDay]?.label ?? '—') : '—';
   }
 
   selectSlot(slot: Slot): void {

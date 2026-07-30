@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Slot, SlotRequest, SlotStatusUpdateRequest } from '../models/slot.model';
+import { BulkSlotCreateResponse, BulkSlotRequest, Slot, SlotRequest, SlotStatusUpdateRequest } from '../models/slot.model';
 
 @Injectable({ providedIn: 'root' })
 export class SlotService {
@@ -15,6 +15,10 @@ export class SlotService {
 
   create(courtId: number, request: SlotRequest): Observable<Slot> {
     return this.http.post<Slot>(`${this.apiUrl}/courts/${courtId}/slots`, request);
+  }
+
+  createBulk(courtId: number, request: BulkSlotRequest): Observable<BulkSlotCreateResponse> {
+    return this.http.post<BulkSlotCreateResponse>(`${this.apiUrl}/courts/${courtId}/slots/bulk`, request);
   }
 
   listAvailablePublic(courtId: number, date: string): Observable<Slot[]> {

@@ -4,6 +4,11 @@
 </a>
 
 @if (venue(); as v) {
+  @if (thumbnailUrl(v); as url) {
+    <div class="venue-hero">
+      <img [src]="url" alt="{{ v.name }}" />
+    </div>
+  }
   <div class="page-header">
     <h1>{{ v.name }}</h1>
     <p class="subtitle"><mat-icon inline>location_on</mat-icon> {{ v.address }}, {{ v.city }}</p>
