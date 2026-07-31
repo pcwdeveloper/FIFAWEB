@@ -2,11 +2,11 @@ export type SlotStatus = 'AVAILABLE' | 'BOOKED' | 'BLOCKED';
 
 export type TimeOfDay = 'MORNING' | 'AFTERNOON' | 'EVENING' | 'NIGHT';
 
-export const TIME_OF_DAY_INFO: Record<TimeOfDay, { label: string }> = {
-  MORNING: { label: 'Morning' },
-  AFTERNOON: { label: 'Afternoon' },
-  EVENING: { label: 'Evening' },
-  NIGHT: { label: 'Night' },
+export const TIME_OF_DAY_INFO: Record<TimeOfDay, { label: string; icon: string }> = {
+  MORNING: { label: 'Morning', icon: 'wb_sunny' },
+  AFTERNOON: { label: 'Afternoon', icon: 'light_mode' },
+  EVENING: { label: 'Evening', icon: 'wb_twilight' },
+  NIGHT: { label: 'Night', icon: 'nights_stay' },
 };
 
 /** Pre-filled starting point in the bulk-generate dialog — the owner can freely edit these. */

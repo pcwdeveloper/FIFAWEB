@@ -28,62 +28,85 @@
 
 @if (loading()) {
   <app-loading-indicator label="Loading slots..." />
-} @else if (slots().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>No slots yet. Add one to make this court bookable on a specific date and time.</p>
-    </mat-card-content>
-  </mat-card>
 } @else {
-  <table mat-table [dataSource]="slots()" class="slots-table">
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let slot"><mat-icon inline>event</mat-icon> {{ slot.date }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="startTime">
-      <th mat-header-cell *matHeaderCellDef>Start</th>
-      <td mat-cell *matCellDef="let slot"><mat-icon inline>schedule</mat-icon> {{ slot.startTime }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="endTime">
-      <th mat-header-cell *matHeaderCellDef>End</th>
-      <td mat-cell *matCellDef="let slot">{{ slot.endTime }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="timeOfDay">
-      <th mat-header-cell *matHeaderCellDef>Time of day</th>
-      <td mat-cell *matCellDef="let slot">{{ timeOfDayLabel(slot) }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let slot">₹{{ slot.price }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let slot">
-        <mat-chip [color]="statusColor(slot.status)" highlighted>{{ slot.status }}</mat-chip>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let slot">
-        @if (slot.status !== 'BOOKED') {
-          <button mat-button (click)="toggleBlock(slot)">
-            <mat-icon>{{ slot.status === 'BLOCKED' ? 'lock_open' : 'block' }}</mat-icon>
-            {{ slot.status === 'BLOCKED' ? 'Unblock' : 'Block' }}
-          </button>
-          <button mat-icon-button (click)="deleteSlot(slot)" aria-label="Delete slot">
-            <mat-icon>delete</mat-icon>
+  @if (venueCourts().length > 1) {
+    <div class="court-switcher">
+      <span class="court-switcher-label">Courts at this venue</span>
+      <div class="court-pills">
+        @for (c of venueCourts(); track c.id) {
+          <button
+            type="button"
+            class="court-pill"
+            [class.active]="c.id === courtId"
+            (click)="switchCourt(c)"
+          >
+            {{ c.name }}
           </button>
         }
-      </td>
-    </ng-container>
+      </div>
+    </div>
+  }
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  <div class="month-label">
+    <mat-icon inline>calendar_month</mat-icon>
+    {{ monthLabel() }}
+  </div>
+
+  <div class="date-strip">
+    @for (option of dateOptions; track option.iso) {
+      <button
+        type="button"
+        class="date-cell"
+        [class.active]="option.iso === selectedDate()"
+        [class.today]="option.isToday"
+        (click)="selectDate(option.iso)"
+      >
+        <span class="date-day-name">{{ option.isToday ? 'Today' : option.dayName }}</span>
+        <span class="date-day-number">{{ option.dayNumber }}</span>
+      </button>
+    }
+  </div>
+
+  @if (slotGroups().length === 0) {
+    <mat-card>
+      <mat-card-content>
+        <p>No slots on this date. Try another date, or add slots for this court.</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    @for (group of slotGroups(); track group.timeOfDay) {
+      <div class="group-header">
+        <span class="group-line"></span>
+        <mat-icon inline>{{ group.icon }}</mat-icon>
+        <span>{{ group.label }} Slots</span>
+        <span class="group-line"></span>
+      </div>
+
+      <div class="slot-list">
+        @for (slot of group.slots; track slot.id) {
+          <div class="slot-row">
+            <div class="slot-time">
+              @if (isOngoing(slot)) {
+                <mat-chip class="ongoing-chip" highlighted>Ongoing</mat-chip>
+              }
+              {{ slot.startTime.slice(0, 5) }} - {{ slot.endTime.slice(0, 5) }}
+            </div>
+            <div class="slot-price">₹{{ slot.price }}</div>
+            <mat-chip [color]="statusColor(slot.status)" highlighted>{{ slot.status }}</mat-chip>
+            <div class="slot-actions">
+              @if (slot.status !== 'BOOKED') {
+                <button mat-icon-button (click)="toggleBlock(slot)"
+                        [attr.aria-label]="slot.status === 'BLOCKED' ? 'Unblock slot' : 'Block slot'">
+                  <mat-icon>{{ slot.status === 'BLOCKED' ? 'lock_open' : 'block' }}</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteSlot(slot)" aria-label="Delete slot">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
 }
