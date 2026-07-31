@@ -38,7 +38,12 @@
 
       <div class="field">
         <label for="venue-city">City *</label>
-        <input id="venue-city" formControlName="city" autocomplete="off" />
+        <select id="venue-city" formControlName="city">
+          <option value="" disabled>Select a city</option>
+          @for (city of cities; track city) {
+            <option [value]="city">{{ city }}</option>
+          }
+        </select>
         @if (form.controls.city.hasError('required') && form.controls.city.touched) {
           <span class="field-error">City is required</span>
         }

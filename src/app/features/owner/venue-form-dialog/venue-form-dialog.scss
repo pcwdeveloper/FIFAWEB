@@ -78,7 +78,8 @@
   }
 
   input,
-  textarea {
+  textarea,
+  select {
     border: none;
     border-bottom: 1px solid var(--mat-sys-outline-variant, #ccc);
     background: transparent;
@@ -92,6 +93,15 @@
       outline: none;
       border-bottom: 2px solid var(--mat-sys-tertiary);
       padding-bottom: 7px;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    color-scheme: light dark;
+
+    option {
+      color: initial;
     }
   }
 }

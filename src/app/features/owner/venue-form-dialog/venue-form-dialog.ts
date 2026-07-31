@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Venue, VenueRequest } from '../../../core/models/venue.model';
-import { resolveVenueThumbnailUrl } from '../../../core/utils/asset-url.util';
 
 export interface VenueFormResult {
   request: VenueRequest;
@@ -14,6 +13,20 @@ export interface VenueFormResult {
 
 const MAX_THUMBNAIL_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+export const VENUE_CITIES = [
+  'Ahmedabad',
+  'Bangalore',
+  'Chennai',
+  'Delhi',
+  'Indore',
+  'Kanpur',
+  'Mumbai',
+  'Nashik',
+  'Pune',
+  'Surat',
+  'Vadodara',
+];
 
 @Component({
   selector: 'app-venue-form-dialog',
@@ -28,8 +41,15 @@ export class VenueFormDialog {
   protected readonly data = inject<Venue | null>(MAT_DIALOG_DATA);
 
   readonly isEdit = !!this.data;
-  readonly thumbnailPreviewUrl = signal<string | null>(resolveVenueThumbnailUrl(this.data?.thumbnailFileName));
+  readonly thumbnailPreviewUrl = signal<string | null>(this.data?.thumbnailUrl ?? null);
   private thumbnailFile: File | null = null;
+
+  // Preserve an existing venue's city even if it predates this fixed list, so editing
+  // doesn't silently swap it out for the first dropdown option — inserted in sorted order.
+  readonly cities =
+    this.data?.city && !VENUE_CITIES.includes(this.data.city)
+      ? [...VENUE_CITIES, this.data.city].sort((a, b) => a.localeCompare(b))
+      : VENUE_CITIES;
 
   readonly form = this.fb.nonNullable.group({
     name: [this.data?.name ?? '', [Validators.required]],

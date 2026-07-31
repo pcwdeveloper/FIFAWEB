@@ -6,7 +6,7 @@ export interface Venue {
   address: string;
   city: string;
   description: string | null;
-  thumbnailFileName: string | null;
+  thumbnailUrl: string | null;
   status: VenueStatus;
   ownerId: number;
   ownerName: string;

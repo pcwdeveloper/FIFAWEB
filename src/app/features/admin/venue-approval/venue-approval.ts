@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue, VenueStatus } from '../../../core/models/venue.model';
-import { resolveVenueThumbnailUrl } from '../../../core/utils/asset-url.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 const TABS: (VenueStatus | 'ALL')[] = ['PENDING', 'APPROVED', 'REJECTED', 'ALL'];
@@ -73,7 +72,7 @@ export class VenueApproval implements OnInit {
   }
 
   thumbnailUrl(venue: Venue): string | null {
-    return resolveVenueThumbnailUrl(venue.thumbnailFileName);
+    return venue.thumbnailUrl;
   }
 
   statusColor(status: Venue['status']): string {

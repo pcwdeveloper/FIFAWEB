@@ -14,7 +14,6 @@ import { OwnerStats } from '../../../core/models/stats.model';
 import { VenueFormDialog, VenueFormResult } from '../venue-form-dialog/venue-form-dialog';
 import { StatTile } from '../../../shared/stat-tile/stat-tile';
 import { formatCompactCurrency, formatCompactNumber } from '../../../core/utils/format.util';
-import { resolveVenueThumbnailUrl } from '../../../core/utils/asset-url.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
@@ -51,7 +50,7 @@ export class OwnerDashboard implements OnInit {
   }
 
   thumbnailUrl(venue: Venue): string | null {
-    return resolveVenueThumbnailUrl(venue.thumbnailFileName);
+    return venue.thumbnailUrl;
   }
 
   loadVenues(): void {
