@@ -31,7 +31,7 @@
 } @else {
   @if (venueCourts().length > 1) {
     <div class="court-switcher">
-      <span class="court-switcher-label">Courts at this venue</span>
+      <span class="court-switcher-label">Other courts for this sport</span>
       <div class="court-pills">
         @for (c of venueCourts(); track c.id) {
           <button

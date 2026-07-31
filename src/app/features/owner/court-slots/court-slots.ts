@@ -112,8 +112,11 @@ export class CourtSlots implements OnInit {
     this.loading.set(true);
     this.courtService.listByVenue(this.venueId).subscribe({
       next: (courts) => {
-        this.venueCourts.set(courts);
-        this.court.set(courts.find((c) => c.id === this.courtId) ?? null);
+        const current = courts.find((c) => c.id === this.courtId) ?? null;
+        this.court.set(current);
+        // Only offer courts of the same sport in the switcher — this page is reached via a
+        // specific sport's "Manage courts" list, so switching sports here would be surprising.
+        this.venueCourts.set(current ? courts.filter((c) => c.sportId === current.sportId) : courts);
       },
     });
 
