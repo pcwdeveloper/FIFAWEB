@@ -15,13 +15,17 @@
     }
   </div>
   <div class="header-actions">
-    <button mat-button (click)="openBulkCreateDialog()">
+    <button mat-button color="warn" (click)="openBulkDeleteDialog()">
+      <mat-icon>event_busy</mat-icon>
+      Delete for month
+    </button>
+    <button mat-button (click)="openBulkBlockDialog()">
+      <mat-icon>block</mat-icon>
+      Block upcoming days
+    </button>
+    <button mat-flat-button color="primary" (click)="openBulkCreateDialog()">
       <mat-icon>event_repeat</mat-icon>
       Generate for month
-    </button>
-    <button mat-flat-button color="primary" (click)="openCreateDialog()">
-      <mat-icon>add</mat-icon>
-      Add slot
     </button>
   </div>
 </div>
@@ -74,6 +78,27 @@
       </mat-card-content>
     </mat-card>
   } @else {
+    <div class="selection-toolbar">
+      <mat-checkbox [checked]="allVisibleSelected()" (change)="toggleSelectAllVisible()">
+        Select all
+      </mat-checkbox>
+      @if (selectedCount() > 0) {
+        <span class="selection-count">{{ selectedCount() }} selected</span>
+        <button mat-button (click)="bulkBlockSelected()">
+          <mat-icon>block</mat-icon>
+          Block selected
+        </button>
+        <button mat-button (click)="bulkUnblockSelected()">
+          <mat-icon>lock_open</mat-icon>
+          Unblock selected
+        </button>
+        <button mat-button color="warn" (click)="bulkDeleteSelected()">
+          <mat-icon>delete</mat-icon>
+          Delete selected
+        </button>
+      }
+    </div>
+
     @for (group of slotGroups(); track group.timeOfDay) {
       <div class="group-header">
         <span class="group-line"></span>
@@ -85,6 +110,11 @@
       <div class="slot-list">
         @for (slot of group.slots; track slot.id) {
           <div class="slot-row">
+            @if (slot.status !== 'BOOKED') {
+              <mat-checkbox [checked]="isSelected(slot)" (change)="toggleSelect(slot)" />
+            } @else {
+              <span class="checkbox-spacer"></span>
+            }
             <div class="slot-time">
               @if (isOngoing(slot)) {
                 <mat-chip class="ongoing-chip" highlighted>Ongoing</mat-chip>

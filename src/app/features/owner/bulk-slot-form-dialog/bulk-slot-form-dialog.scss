@@ -1,40 +1,53 @@
 .dialog-header {
-  padding: 16px 24px 0;
+  padding: 10px 20px 8px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant, #ccc);
 
   h2 {
-    margin: 0;
-    font-size: 1.5rem;
+    // Angular Material's own mat-dialog-title styling adds its own padding regardless of
+    // this component's styles — override explicitly rather than fight it via margins.
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
     font-weight: 800;
-  }
+    letter-spacing: -0.01em;
 
-  .subtitle {
-    margin: 10px 0 0;
-    font-size: 0.9rem;
-    color: var(--mat-sys-on-surface-variant);
-    max-width: 480px;
+    mat-icon {
+      color: var(--mat-sys-tertiary);
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
   }
 }
 
 .month-picker {
   display: flex;
-  gap: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .month-field {
-  width: 160px;
+  width: 140px;
 }
 
 .year-field {
-  width: 120px;
+  width: 100px;
+}
+
+.interval-field {
+  width: 130px;
 }
 
 .category-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 680px;
+  min-width: 520px;
 
-  @media (max-width: 760px) {
+  @media (max-width: 600px) {
     min-width: 0;
   }
 }
@@ -43,40 +56,61 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  transition: opacity 0.2s ease, background-color 0.2s ease;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--mat-sys-outline-variant, #ccc);
+  border-radius: 10px;
+  transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 
-  &:not(.disabled):hover {
-    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 5%, transparent);
+  &.enabled {
+    border-color: color-mix(in srgb, var(--mat-sys-tertiary) 35%, var(--mat-sys-outline-variant, #ccc));
+    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 4%, transparent);
   }
 
-  &.disabled {
-    opacity: 0.5;
+  &:not(.enabled) {
+    opacity: 0.55;
   }
 
   mat-checkbox {
-    flex: 1 1 110px;
+    flex: 1 1 100px;
+  }
+
+  .category-icon {
+    flex: 0 0 auto;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--mat-sys-tertiary);
   }
 
   .category-name {
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 
   .time-field {
-    width: 110px;
-  }
-
-  .interval-field {
-    width: 110px;
+    width: 100px;
   }
 
   .price-field {
-    width: 120px;
+    width: 110px;
   }
 
   mat-form-field {
     margin-bottom: -1.25em;
   }
 }
+
+::ng-deep .mat-mdc-dialog-content {
+  padding-top: 8px !important;
+}
+
+// Material's default outlined field reserves 16px above/below the input (a 56px-tall field) —
+// too roomy for this dialog's compact fields, so shrink it directly.
+.month-picker ::ng-deep .mat-mdc-form-field-infix,
+.category-row ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  min-height: 0 !important;
+}
+

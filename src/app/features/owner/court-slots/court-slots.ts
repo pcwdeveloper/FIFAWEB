@@ -1,17 +1,27 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SlotService } from '../../../core/services/slot.service';
 import { CourtService } from '../../../core/services/court.service';
-import { BulkSlotRequest, Slot, SlotRequest, TimeOfDay, TIME_OF_DAY_INFO } from '../../../core/models/slot.model';
+import {
+  BulkSlotBlockRequest,
+  BulkSlotDeleteRequest,
+  BulkSlotRequest,
+  Slot,
+  TimeOfDay,
+  TIME_OF_DAY_INFO,
+} from '../../../core/models/slot.model';
 import { Court } from '../../../core/models/court.model';
-import { SlotFormDialog } from '../slot-form-dialog/slot-form-dialog';
 import { BulkSlotFormDialog } from '../bulk-slot-form-dialog/bulk-slot-form-dialog';
+import { BulkSlotDeleteDialog } from '../bulk-slot-delete-dialog/bulk-slot-delete-dialog';
+import { BulkSlotBlockDialog } from '../bulk-slot-block-dialog/bulk-slot-block-dialog';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
@@ -47,7 +57,15 @@ function toIsoDate(date: Date): string {
 
 @Component({
   selector: 'app-court-slots',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, LoadingIndicator],
+  imports: [
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    LoadingIndicator,
+  ],
   templateUrl: './court-slots.html',
   styleUrl: './court-slots.scss',
 })
@@ -100,10 +118,21 @@ export class CourtSlots implements OnInit {
     })).filter((group) => group.slots.length > 0);
   });
 
+  readonly selectedSlotIds = signal<Set<number>>(new Set());
+  readonly selectedCount = computed(() => this.selectedSlotIds().size);
+
+  readonly allVisibleSelected = computed(() => {
+    const visible = this.slotsForSelectedDate();
+    if (visible.length === 0) return false;
+    const selected = this.selectedSlotIds();
+    return visible.every((s) => selected.has(s.id));
+  });
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.venueId = Number(params.get('venueId'));
       this.courtId = Number(params.get('courtId'));
+      this.clearSelection();
       this.loadAll();
     });
   }
@@ -134,28 +163,111 @@ export class CourtSlots implements OnInit {
 
   selectDate(iso: string): void {
     this.selectedDate.set(iso);
+    this.clearSelection();
+  }
+
+  isSelected(slot: Slot): boolean {
+    return this.selectedSlotIds().has(slot.id);
+  }
+
+  toggleSelect(slot: Slot): void {
+    const next = new Set(this.selectedSlotIds());
+    if (next.has(slot.id)) {
+      next.delete(slot.id);
+    } else {
+      next.add(slot.id);
+    }
+    this.selectedSlotIds.set(next);
+  }
+
+  toggleSelectAllVisible(): void {
+    const visible = this.slotsForSelectedDate();
+    const next = new Set(this.selectedSlotIds());
+    if (this.allVisibleSelected()) {
+      visible.forEach((s) => next.delete(s.id));
+    } else {
+      visible.forEach((s) => next.add(s.id));
+    }
+    this.selectedSlotIds.set(next);
+  }
+
+  clearSelection(): void {
+    this.selectedSlotIds.set(new Set());
+  }
+
+  bulkBlockSelected(): void {
+    const ids = this.selectedSlotIds();
+    const targets = this.slots().filter((s) => ids.has(s.id) && s.status !== 'BOOKED');
+    const skipped = ids.size - targets.length;
+    if (targets.length === 0) {
+      this.snackBar.open('Selected slots cannot be blocked (already booked)', 'Dismiss', { duration: 4000 });
+      return;
+    }
+
+    forkJoin(targets.map((s) => this.slotService.updateStatus(s.id, { status: 'BLOCKED' }))).subscribe({
+      next: () => {
+        const skippedMessage = skipped > 0 ? `, skipped ${skipped} booked slot(s)` : '';
+        this.snackBar.open(`Blocked ${targets.length} slot(s)${skippedMessage}`, 'Dismiss', { duration: 5000 });
+        this.clearSelection();
+        this.loadAll();
+      },
+      error: () => {
+        this.snackBar.open('Failed to block some slots', 'Dismiss', { duration: 4000 });
+        this.loadAll();
+      },
+    });
+  }
+
+  bulkUnblockSelected(): void {
+    const ids = this.selectedSlotIds();
+    const targets = this.slots().filter((s) => ids.has(s.id) && s.status !== 'BOOKED');
+    const skipped = ids.size - targets.length;
+    if (targets.length === 0) {
+      this.snackBar.open('Selected slots cannot be unblocked (already booked)', 'Dismiss', { duration: 4000 });
+      return;
+    }
+
+    forkJoin(targets.map((s) => this.slotService.updateStatus(s.id, { status: 'AVAILABLE' }))).subscribe({
+      next: () => {
+        const skippedMessage = skipped > 0 ? `, skipped ${skipped} booked slot(s)` : '';
+        this.snackBar.open(`Unblocked ${targets.length} slot(s)${skippedMessage}`, 'Dismiss', { duration: 5000 });
+        this.clearSelection();
+        this.loadAll();
+      },
+      error: () => {
+        this.snackBar.open('Failed to unblock some slots', 'Dismiss', { duration: 4000 });
+        this.loadAll();
+      },
+    });
+  }
+
+  bulkDeleteSelected(): void {
+    const ids = this.selectedSlotIds();
+    const targets = this.slots().filter((s) => ids.has(s.id) && s.status !== 'BOOKED');
+    const skipped = ids.size - targets.length;
+    if (targets.length === 0) {
+      this.snackBar.open('Selected slots cannot be deleted (already booked)', 'Dismiss', { duration: 4000 });
+      return;
+    }
+    if (!confirm(`Delete ${targets.length} selected slot(s)?`)) return;
+
+    forkJoin(targets.map((s) => this.slotService.delete(s.id))).subscribe({
+      next: () => {
+        const skippedMessage = skipped > 0 ? `, skipped ${skipped} booked slot(s)` : '';
+        this.snackBar.open(`Deleted ${targets.length} slot(s)${skippedMessage}`, 'Dismiss', { duration: 5000 });
+        this.clearSelection();
+        this.loadAll();
+      },
+      error: () => {
+        this.snackBar.open('Failed to delete some slots', 'Dismiss', { duration: 4000 });
+        this.loadAll();
+      },
+    });
   }
 
   switchCourt(court: Court): void {
     if (court.id === this.courtId) return;
     this.router.navigate(['/owner/venues', this.venueId, 'courts', court.id, 'slots']);
-  }
-
-  openCreateDialog(): void {
-    const ref = this.dialog.open(SlotFormDialog);
-    ref.afterClosed().subscribe((request: SlotRequest | undefined) => {
-      if (!request) return;
-      this.slotService.create(this.courtId, request).subscribe({
-        next: () => {
-          this.snackBar.open('Slot added', 'Dismiss', { duration: 4000 });
-          this.loadAll();
-        },
-        error: (err) => {
-          const message = err?.error?.message ?? 'Failed to add slot';
-          this.snackBar.open(message, 'Dismiss', { duration: 5000 });
-        },
-      });
-    });
   }
 
   toggleBlock(slot: Slot): void {
@@ -188,7 +300,7 @@ export class CourtSlots implements OnInit {
   }
 
   openBulkCreateDialog(): void {
-    const ref = this.dialog.open(BulkSlotFormDialog, { width: '760px', maxWidth: '95vw' });
+    const ref = this.dialog.open(BulkSlotFormDialog, { width: '580px', maxWidth: '95vw' });
     ref.afterClosed().subscribe((request: BulkSlotRequest | undefined) => {
       if (!request) return;
       this.slotService.createBulk(this.courtId, request).subscribe({
@@ -201,6 +313,48 @@ export class CourtSlots implements OnInit {
         },
         error: (err) => {
           const message = err?.error?.message ?? 'Failed to generate slots';
+          this.snackBar.open(message, 'Dismiss', { duration: 5000 });
+        },
+      });
+    });
+  }
+
+  openBulkDeleteDialog(): void {
+    const ref = this.dialog.open(BulkSlotDeleteDialog);
+    ref.afterClosed().subscribe((request: BulkSlotDeleteRequest | undefined) => {
+      if (!request) return;
+      this.slotService.deleteBulk(this.courtId, request).subscribe({
+        next: (result) => {
+          const skippedMessage = result.skippedCount > 0 ? `, skipped ${result.skippedCount} booked slot(s)` : '';
+          this.snackBar.open(`Deleted ${result.deletedCount} slot(s)${skippedMessage}`, 'Dismiss', {
+            duration: 5000,
+          });
+          this.clearSelection();
+          this.loadAll();
+        },
+        error: (err) => {
+          const message = err?.error?.message ?? 'Failed to delete slots';
+          this.snackBar.open(message, 'Dismiss', { duration: 5000 });
+        },
+      });
+    });
+  }
+
+  openBulkBlockDialog(): void {
+    const ref = this.dialog.open(BulkSlotBlockDialog);
+    ref.afterClosed().subscribe((request: BulkSlotBlockRequest | undefined) => {
+      if (!request) return;
+      this.slotService.blockBulk(this.courtId, request).subscribe({
+        next: (result) => {
+          const skippedMessage = result.skippedCount > 0 ? `, skipped ${result.skippedCount} booked slot(s)` : '';
+          this.snackBar.open(`Blocked ${result.blockedCount} slot(s)${skippedMessage}`, 'Dismiss', {
+            duration: 5000,
+          });
+          this.clearSelection();
+          this.loadAll();
+        },
+        error: (err) => {
+          const message = err?.error?.message ?? 'Failed to block slots';
           this.snackBar.open(message, 'Dismiss', { duration: 5000 });
         },
       });

@@ -28,12 +28,6 @@ export interface Slot {
   status: SlotStatus;
 }
 
-export interface SlotRequest {
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
 export interface SlotStatusUpdateRequest {
   status: Extract<SlotStatus, 'AVAILABLE' | 'BLOCKED'>;
 }
@@ -42,13 +36,13 @@ export interface BulkSlotCategoryConfig {
   enabled: boolean;
   startTime: string | null;
   endTime: string | null;
-  intervalMinutes: number | null;
   price: number | null;
 }
 
 export interface BulkSlotRequest {
   year: number;
   month: number;
+  intervalMinutes: number;
   morning: BulkSlotCategoryConfig;
   afternoon: BulkSlotCategoryConfig;
   evening: BulkSlotCategoryConfig;
@@ -57,5 +51,28 @@ export interface BulkSlotRequest {
 
 export interface BulkSlotCreateResponse {
   created: Slot[];
+  skippedCount: number;
+}
+
+export interface BulkSlotDeleteRequest {
+  year: number;
+  month: number;
+  categories: TimeOfDay[];
+}
+
+export interface BulkSlotDeleteResponse {
+  deletedCount: number;
+  skippedCount: number;
+}
+
+export interface BulkSlotBlockRequest {
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface BulkSlotBlockResponse {
+  blockedCount: number;
   skippedCount: number;
 }

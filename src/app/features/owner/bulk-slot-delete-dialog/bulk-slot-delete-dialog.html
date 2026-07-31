@@ -1,0 +1,42 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>Delete slots for a month</h2>
+  <p class="subtitle">
+    Pick a month and which time-of-day categories to delete. Booked slots are always kept — only
+    available and blocked slots are removed.
+  </p>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="month-picker">
+      <mat-form-field appearance="outline" class="month-field">
+        <mat-label>Month</mat-label>
+        <mat-select formControlName="month">
+          @for (name of monthNames; track name; let i = $index) {
+            <mat-option [value]="i + 1">{{ name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="year-field">
+        <mat-label>Year</mat-label>
+        <mat-select formControlName="year">
+          @for (year of yearOptions; track year) {
+            <mat-option [value]="year">{{ year }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="category-list">
+      @for (key of categoryKeys; track key) {
+        <mat-checkbox [formControlName]="key">{{ categoryLabel(key) }}</mat-checkbox>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-flat-button color="warn" type="submit">Delete</button>
+  </mat-dialog-actions>
+</form>

@@ -2,7 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { BulkSlotCreateResponse, BulkSlotRequest, Slot, SlotRequest, SlotStatusUpdateRequest } from '../models/slot.model';
+import {
+  BulkSlotBlockRequest,
+  BulkSlotBlockResponse,
+  BulkSlotCreateResponse,
+  BulkSlotDeleteRequest,
+  BulkSlotDeleteResponse,
+  BulkSlotRequest,
+  Slot,
+  SlotStatusUpdateRequest,
+} from '../models/slot.model';
 
 @Injectable({ providedIn: 'root' })
 export class SlotService {
@@ -13,12 +22,16 @@ export class SlotService {
     return this.http.get<Slot[]>(`${this.apiUrl}/courts/${courtId}/slots`);
   }
 
-  create(courtId: number, request: SlotRequest): Observable<Slot> {
-    return this.http.post<Slot>(`${this.apiUrl}/courts/${courtId}/slots`, request);
-  }
-
   createBulk(courtId: number, request: BulkSlotRequest): Observable<BulkSlotCreateResponse> {
     return this.http.post<BulkSlotCreateResponse>(`${this.apiUrl}/courts/${courtId}/slots/bulk`, request);
+  }
+
+  deleteBulk(courtId: number, request: BulkSlotDeleteRequest): Observable<BulkSlotDeleteResponse> {
+    return this.http.post<BulkSlotDeleteResponse>(`${this.apiUrl}/courts/${courtId}/slots/bulk-delete`, request);
+  }
+
+  blockBulk(courtId: number, request: BulkSlotBlockRequest): Observable<BulkSlotBlockResponse> {
+    return this.http.post<BulkSlotBlockResponse>(`${this.apiUrl}/courts/${courtId}/slots/bulk-block`, request);
   }
 
   listAvailablePublic(courtId: number, date: string): Observable<Slot[]> {

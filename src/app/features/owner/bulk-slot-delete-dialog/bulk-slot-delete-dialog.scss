@@ -1,0 +1,38 @@
+.dialog-header {
+  padding: 16px 24px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+    max-width: 420px;
+  }
+}
+
+.month-picker {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.month-field {
+  width: 160px;
+}
+
+.year-field {
+  width: 120px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 280px;
+  margin: 8px 0 4px;
+}

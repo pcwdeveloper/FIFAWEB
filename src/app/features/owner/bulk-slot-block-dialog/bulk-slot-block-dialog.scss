@@ -1,0 +1,39 @@
+.dialog-header {
+  padding: 16px 24px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+    max-width: 420px;
+  }
+}
+
+.date-picker {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.date-field {
+  width: 170px;
+}
+
+.time-picker {
+  display: flex;
+  gap: 12px;
+}
+
+.interval-field {
+  width: 110px;
+}
+
+.time-field {
+  width: 110px;
+}
