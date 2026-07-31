@@ -68,6 +68,11 @@ export const routes: Routes = [
               import('./features/owner/venue-detail/venue-detail').then((m) => m.VenueDetail),
           },
           {
+            path: 'venues/:venueId/sports/:sportId/courts',
+            loadComponent: () =>
+              import('./features/owner/sport-courts/sport-courts').then((m) => m.SportCourts),
+          },
+          {
             path: 'venues/:venueId/courts/:courtId/slots',
             loadComponent: () =>
               import('./features/owner/court-slots/court-slots').then((m) => m.CourtSlots),

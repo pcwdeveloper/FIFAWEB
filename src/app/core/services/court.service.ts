@@ -13,6 +13,10 @@ export class CourtService {
     return this.http.get<Court[]>(`${this.apiUrl}/venues/${venueId}/courts`);
   }
 
+  listByVenueAndSport(venueId: number, sportId: number): Observable<Court[]> {
+    return this.http.get<Court[]>(`${this.apiUrl}/venues/${venueId}/sports/${sportId}/courts`);
+  }
+
   create(venueId: number, request: CourtRequest): Observable<Court> {
     return this.http.post<Court>(`${this.apiUrl}/venues/${venueId}/courts`, request);
   }

@@ -11,7 +11,7 @@ describe('CourtFormDialog', () => {
     await TestBed.configureTestingModule({
       providers: [
         { provide: MatDialogRef, useValue: { close: () => {} } },
-        { provide: MAT_DIALOG_DATA, useValue: { court: null, sports: [] } },
+        { provide: MAT_DIALOG_DATA, useValue: { court: null, sport: { id: 1, name: 'Badminton' } } },
       ],
       imports: [CourtFormDialog]
     })

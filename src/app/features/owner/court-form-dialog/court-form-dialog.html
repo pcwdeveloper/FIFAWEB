@@ -2,23 +2,16 @@
 
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-dialog-content class="form-content">
+    <p class="sport-label">
+      <mat-icon inline>{{ sportIconName }}</mat-icon>
+      {{ sport.name }}
+    </p>
+
     <mat-form-field appearance="outline">
       <mat-label>Court name</mat-label>
       <input matInput formControlName="name" placeholder="e.g. Court 1" />
       @if (form.controls.name.hasError('required') && form.controls.name.touched) {
         <mat-error>Court name is required</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Sport</mat-label>
-      <mat-select formControlName="sportId">
-        @for (sport of sports; track sport.id) {
-          <mat-option [value]="sport.id">{{ sport.name }}</mat-option>
-        }
-      </mat-select>
-      @if (form.controls.sportId.hasError('required') && form.controls.sportId.touched) {
-        <mat-error>Sport is required</mat-error>
       }
     </mat-form-field>
 

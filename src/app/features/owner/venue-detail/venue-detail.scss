@@ -27,10 +27,7 @@
 }
 
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 
   h2 {
     margin: 0;
@@ -39,8 +36,9 @@
     gap: 8px;
   }
 
-  button mat-icon {
-    margin-right: 4px;
+  .section-subtitle {
+    margin: 4px 0 0;
+    color: var(--mat-sys-on-surface-variant);
   }
 }
 
@@ -48,28 +46,48 @@
   color: var(--mat-sys-primary);
 }
 
-.sport-cell {
-  display: inline-flex;
+.sport-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.sport-card {
+  cursor: pointer;
+  text-align: center;
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 24px 16px;
+  }
+
+  h3 {
+    margin: 4px 0 0;
+  }
+}
+
+.sport-icon {
+  display: flex;
   align-items: center;
-  gap: 4px;
-}
-
-.status-active {
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
   color: var(--mat-sys-primary);
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
 }
 
-.status-inactive {
-  color: var(--mat-sys-error);
-}
-
-.courts-table {
-  width: 100%;
-
-  td mat-icon {
-    vertical-align: middle;
-  }
-
-  td button mat-icon:not([inline]) {
-    margin-right: 4px;
-  }
+.court-count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant);
 }
