@@ -1,9 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { CourtService } from '../../../core/services/court.service';
 import { Venue } from '../../../core/models/venue.model';
@@ -13,7 +10,7 @@ import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indi
 
 @Component({
   selector: 'app-venue-courts',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, LoadingIndicator],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './venue-courts.html',
   styleUrl: './venue-courts.scss',
 })
@@ -22,7 +19,7 @@ export class VenueCourts implements OnInit {
   private readonly router = inject(Router);
   private readonly venueService = inject(VenueService);
   private readonly courtService = inject(CourtService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly venueId = Number(this.route.snapshot.paramMap.get('id'));
 

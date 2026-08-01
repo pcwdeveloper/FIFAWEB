@@ -13,24 +13,19 @@
 }
 
 .title-icon {
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
 }
 
 .search-bar {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 12px;
   margin-bottom: 16px;
+}
 
-  mat-form-field {
-    flex: 1;
-    max-width: 320px;
-  }
-
-  mat-icon[matPrefix] {
-    margin-right: 8px;
-    color: var(--mat-sys-on-surface-variant);
-  }
+.city-field {
+  flex: 1;
+  max-width: 320px;
 }
 
 .venue-grid {
@@ -41,19 +36,18 @@
 
 .venue-card {
   cursor: pointer;
+  padding: 0;
   overflow: hidden;
-
-  mat-card-header {
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
 
   .venue-thumbnail {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 150px;
-    background: color-mix(in srgb, var(--mat-sys-primary) 12%, var(--mat-sys-surface-variant));
-    color: var(--mat-sys-primary);
+    background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface-variant));
+    color: var(--color-primary);
 
     img {
       width: 100%;
@@ -61,15 +55,33 @@
       object-fit: cover;
     }
 
-    mat-icon {
+    .icon {
       font-size: 40px;
-      width: 40px;
-      height: 40px;
     }
   }
 
+  .venue-card-header {
+    padding: 14px 16px 0;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .venue-city {
+      margin: 2px 0 0;
+      font-size: 0.85rem;
+      color: var(--color-on-surface-variant);
+    }
+  }
+
+  .venue-card-content {
+    padding: 8px 16px 4px;
+    flex: 1 1 auto;
+  }
+
   .description {
-    color: var(--mat-sys-on-surface-variant);
+    color: var(--color-on-surface-variant);
     font-size: 0.9rem;
   }
 
@@ -77,12 +89,30 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    color: var(--mat-sys-on-surface-variant);
+    color: var(--color-on-surface-variant);
+    font-size: 0.9rem;
 
-    mat-icon {
+    .icon {
       font-size: 18px;
-      width: 18px;
-      height: 18px;
+    }
+  }
+
+  .venue-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 16px 14px;
+  }
+
+  .view-courts-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+
+    .icon {
+      font-size: 18px;
     }
   }
 }

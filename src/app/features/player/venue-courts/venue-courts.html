@@ -1,5 +1,5 @@
 <a routerLink="/player" class="back-link">
-  <mat-icon>arrow_back</mat-icon>
+  <span class="icon">arrow_back</span>
   Back to venues
 </a>
 
@@ -11,7 +11,7 @@
   }
   <div class="page-header">
     <h1>{{ v.name }}</h1>
-    <p class="subtitle"><mat-icon inline>location_on</mat-icon> {{ v.address }}, {{ v.city }}</p>
+    <p class="subtitle"><span class="icon">location_on</span> {{ v.address }}, {{ v.city }}</p>
     @if (v.description) {
       <p class="description">{{ v.description }}</p>
     }
@@ -19,39 +19,37 @@
 }
 
 <h2>
-  <mat-icon class="title-icon">stadium</mat-icon>
+  <span class="icon title-icon">stadium</span>
   Courts
 </h2>
 
 @if (loading()) {
   <app-loading-indicator label="Loading courts..." />
 } @else if (courts().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>This venue has no courts listed yet.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>This venue has no courts listed yet.</p>
+  </div>
 } @else {
   <div class="court-grid">
     @for (court of courts(); track court.id) {
-      <mat-card class="court-card hoverable-card" (click)="viewSlots(court)">
-        <mat-card-header>
+      <div class="card court-card hoverable-card" (click)="viewSlots(court)">
+        <div class="court-card-header">
           <div class="card-icon">
-            <mat-icon>{{ icon(court.sportName) }}</mat-icon>
+            <span class="icon">{{ icon(court.sportName) }}</span>
           </div>
-          <mat-card-title>{{ court.name }}</mat-card-title>
-          <mat-card-subtitle>{{ court.sportName }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="price"><mat-icon inline>payments</mat-icon> ₹{{ court.pricePerSlot }} / slot</p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-button>
+          <div>
+            <h3>{{ court.name }}</h3>
+            <p class="court-sport">{{ court.sportName }}</p>
+          </div>
+        </div>
+        <p class="price"><span class="icon">payments</span> ₹{{ court.pricePerSlot }} / slot</p>
+        <div class="court-card-actions">
+          <span class="view-slots-link">
             View slots
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+            <span class="icon">arrow_forward</span>
+          </span>
+        </div>
+      </div>
     }
   </div>
 }

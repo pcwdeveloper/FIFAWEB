@@ -1,10 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { CourtService } from '../../../core/services/court.service';
 import { SportService } from '../../../core/services/sport.service';
@@ -21,7 +18,7 @@ export interface SportTile {
 
 @Component({
   selector: 'app-venue-detail',
-  imports: [RouterLink, MatCardModule, MatIconModule, MatChipsModule, LoadingIndicator],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './venue-detail.html',
   styleUrl: './venue-detail.scss',
 })
@@ -31,7 +28,7 @@ export class VenueDetail implements OnInit {
   private readonly venueService = inject(VenueService);
   private readonly courtService = inject(CourtService);
   private readonly sportService = inject(SportService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly venueId = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -75,14 +72,14 @@ export class VenueDetail implements OnInit {
     return sportIcon(sportName);
   }
 
-  statusColor(status: Venue['status']): string {
+  statusChipClass(status: Venue['status']): string {
     switch (status) {
       case 'APPROVED':
-        return 'primary';
+        return 'chip-success';
       case 'REJECTED':
-        return 'warn';
+        return 'chip-error';
       default:
-        return '';
+        return 'chip-warning';
     }
   }
 }

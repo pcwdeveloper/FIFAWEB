@@ -1,20 +1,20 @@
-<mat-toolbar color="primary">
-  <mat-icon class="brand-icon">stadium</mat-icon>
+<header class="app-header">
+  <span class="icon brand-icon">stadium</span>
   <span class="brand">FIFA Courts</span>
   <span class="spacer"></span>
 
-  <button mat-icon-button (click)="toggleTheme()" [matTooltip]="themeLabel()" aria-label="Toggle color theme">
-    <mat-icon>{{ themeIcon() }}</mat-icon>
+  <button class="btn-icon" (click)="toggleTheme()" [title]="themeLabel()" [attr.aria-label]="themeLabel()">
+    <span class="icon">{{ themeIcon() }}</span>
   </button>
 
   @if (authService.currentUser(); as user) {
-    <mat-icon class="user-icon">account_circle</mat-icon>
+    <span class="icon user-icon">account_circle</span>
     <span class="user-info">{{ user.fullName }} · {{ user.role }}</span>
-    <button mat-icon-button (click)="logout()" aria-label="Log out">
-      <mat-icon>logout</mat-icon>
+    <button class="btn-icon" (click)="logout()" aria-label="Log out">
+      <span class="icon">logout</span>
     </button>
   }
-</mat-toolbar>
+</header>
 
 <main class="content">
   <router-outlet></router-outlet>

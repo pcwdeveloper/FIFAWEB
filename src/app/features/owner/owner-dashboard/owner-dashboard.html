@@ -4,12 +4,12 @@
     <p class="subtitle">Welcome, {{ authService.currentUser()?.fullName }}</p>
   </div>
   <div class="header-actions">
-    <button mat-button routerLink="/owner/bookings">
-      <mat-icon>event</mat-icon>
+    <a class="btn btn-ghost" routerLink="/owner/bookings">
+      <span class="icon">event</span>
       Bookings
-    </button>
-    <button mat-flat-button color="primary" (click)="openCreateDialog()">
-      <mat-icon>add</mat-icon>
+    </a>
+    <button class="btn btn-primary" (click)="openCreateDialog()">
+      <span class="icon">add</span>
       Add venue
     </button>
   </div>
@@ -27,48 +27,44 @@
 @if (loading()) {
   <app-loading-indicator label="Loading venues..." />
 } @else if (venues().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>You haven't added any venues yet. Click "Add venue" to list your first stadium/location.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>You haven't added any venues yet. Click "Add venue" to list your first stadium/location.</p>
+  </div>
 } @else {
   <div class="venue-grid">
     @for (venue of venues(); track venue.id) {
-      <mat-card class="venue-card">
+      <div class="card venue-card">
         <div class="venue-thumbnail">
           @if (thumbnailUrl(venue); as url) {
             <img [src]="url" alt="{{ venue.name }}" />
           } @else {
-            <mat-icon>stadium</mat-icon>
+            <span class="icon">stadium</span>
           }
         </div>
-        <mat-card-header>
-          <mat-card-title>{{ venue.name }}</mat-card-title>
-          <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="address"><mat-icon inline>location_on</mat-icon> {{ venue.address }}</p>
+        <div class="venue-card-header">
+          <h3>{{ venue.name }}</h3>
+          <p class="venue-city">{{ venue.city }}</p>
+        </div>
+        <div class="venue-card-content">
+          <p class="address"><span class="icon">location_on</span> {{ venue.address }}</p>
           @if (venue.description) {
             <p class="description">{{ venue.description }}</p>
           }
-          <mat-chip-set>
-            <mat-chip [color]="statusColor(venue.status)" highlighted>{{ venue.status }}</mat-chip>
-          </mat-chip-set>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-button (click)="viewCourts(venue)">
-            <mat-icon>stadium</mat-icon>
+          <span class="chip" [class]="statusChipClass(venue.status)">{{ venue.status }}</span>
+        </div>
+        <div class="venue-card-actions">
+          <button class="btn btn-ghost" (click)="viewCourts(venue)">
+            <span class="icon">stadium</span>
             Manage courts
           </button>
-          <button mat-icon-button (click)="openEditDialog(venue)" aria-label="Edit venue">
-            <mat-icon>edit</mat-icon>
+          <button class="btn-icon" (click)="openEditDialog(venue)" aria-label="Edit venue">
+            <span class="icon">edit</span>
           </button>
-          <button mat-icon-button (click)="deleteVenue(venue)" aria-label="Delete venue">
-            <mat-icon>delete</mat-icon>
+          <button class="btn-icon" (click)="deleteVenue(venue)" aria-label="Delete venue">
+            <span class="icon">delete</span>
           </button>
-        </mat-card-actions>
-      </mat-card>
+        </div>
+      </div>
     }
   </div>
 }

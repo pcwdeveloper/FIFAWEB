@@ -3,7 +3,7 @@
   align-items: center;
   gap: 4px;
   margin-bottom: 16px;
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -14,7 +14,7 @@ h1 {
 }
 
 .title-icon {
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
 }
 
 .form-card {
@@ -25,8 +25,8 @@ h1 {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+}
 
-  mat-form-field {
-    flex: 1;
-  }
+.name-field {
+  flex: 1;
 }

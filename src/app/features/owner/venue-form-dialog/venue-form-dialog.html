@@ -1,5 +1,7 @@
-<div class="dialog-header">
-  <h2 mat-dialog-title>{{ isEdit ? 'Edit your venue' : "Let's list your venue." }}</h2>
+<div class="dialog-panel">
+  <div class="dialog-header">
+    <h2>{{ isEdit ? 'Edit your venue' : "Let's list your venue." }}</h2>
+  </div>
   <p class="subtitle">
     @if (isEdit) {
       Update the details players see when they find your venue.
@@ -7,67 +9,67 @@
       Tell us about your venue — we'll walk you through the rest.
     }
   </p>
-</div>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <mat-dialog-content>
-    <div class="thumbnail-picker" (click)="fileInput.click()">
-      @if (thumbnailPreviewUrl(); as url) {
-        <img [src]="url" alt="Venue photo preview" />
-      } @else {
-        <mat-icon>add_a_photo</mat-icon>
-        <span>Add a venue photo</span>
-      }
-    </div>
-    <input
-      #fileInput
-      type="file"
-      accept="image/jpeg,image/png,image/webp"
-      hidden
-      (change)="onThumbnailSelected($event)"
-    />
-
-    <div class="form-grid">
-      <div class="field">
-        <label for="venue-name">Venue name *</label>
-        <input id="venue-name" formControlName="name" autocomplete="off" />
-        @if (form.controls.name.hasError('required') && form.controls.name.touched) {
-          <span class="field-error">Venue name is required</span>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="dialog-body">
+      <div class="thumbnail-picker" (click)="fileInput.click()">
+        @if (thumbnailPreviewUrl(); as url) {
+          <img [src]="url" alt="Venue photo preview" />
+        } @else {
+          <span class="icon">add_a_photo</span>
+          <span>Add a venue photo</span>
         }
       </div>
+      <input
+        #fileInput
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        hidden
+        (change)="onThumbnailSelected($event)"
+      />
 
-      <div class="field">
-        <label for="venue-city">City *</label>
-        <select id="venue-city" formControlName="city">
-          <option value="" disabled>Select a city</option>
-          @for (city of cities; track city) {
-            <option [value]="city">{{ city }}</option>
+      <div class="form-grid">
+        <div class="field">
+          <label for="venue-name">Venue name *</label>
+          <input id="venue-name" formControlName="name" autocomplete="off" />
+          @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+            <span class="field-error">Venue name is required</span>
           }
-        </select>
-        @if (form.controls.city.hasError('required') && form.controls.city.touched) {
-          <span class="field-error">City is required</span>
-        }
-      </div>
+        </div>
 
-      <div class="field full-width">
-        <label for="venue-address">Address *</label>
-        <input id="venue-address" formControlName="address" autocomplete="off" />
-        @if (form.controls.address.hasError('required') && form.controls.address.touched) {
-          <span class="field-error">Address is required</span>
-        }
-      </div>
+        <div class="field">
+          <label for="venue-city">City *</label>
+          <select id="venue-city" formControlName="city">
+            <option value="" disabled>Select a city</option>
+            @for (city of cities; track city) {
+              <option [value]="city">{{ city }}</option>
+            }
+          </select>
+          @if (form.controls.city.hasError('required') && form.controls.city.touched) {
+            <span class="field-error">City is required</span>
+          }
+        </div>
 
-      <div class="field full-width">
-        <label for="venue-description">Any other information you want to share</label>
-        <textarea id="venue-description" formControlName="description" rows="3"></textarea>
+        <div class="field full-width">
+          <label for="venue-address">Address *</label>
+          <input id="venue-address" formControlName="address" autocomplete="off" />
+          @if (form.controls.address.hasError('required') && form.controls.address.touched) {
+            <span class="field-error">Address is required</span>
+          }
+        </div>
+
+        <div class="field full-width">
+          <label for="venue-description">Any other information you want to share</label>
+          <textarea id="venue-description" formControlName="description" rows="3"></textarea>
+        </div>
       </div>
     </div>
-  </mat-dialog-content>
 
-  <mat-dialog-actions align="start">
-    <button mat-flat-button color="primary" type="submit" class="submit-button">
-      {{ isEdit ? 'Save' : 'Submit' }}
-    </button>
-    <button mat-button type="button" (click)="cancel()">Cancel</button>
-  </mat-dialog-actions>
-</form>
+    <div class="dialog-actions actions-start">
+      <button class="btn btn-primary submit-button" type="submit">
+        {{ isEdit ? 'Save' : 'Submit' }}
+      </button>
+      <button class="btn btn-ghost" type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

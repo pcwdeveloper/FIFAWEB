@@ -1,5 +1,5 @@
 <a [routerLink]="['/owner/venues', venueId]" class="back-link">
-  <mat-icon>arrow_back</mat-icon>
+  <span class="icon">arrow_back</span>
   Back to sports
 </a>
 
@@ -7,15 +7,15 @@
   <div>
     @if (sport(); as s) {
       <h1>
-        <mat-icon class="title-icon">{{ icon(s.name) }}</mat-icon>
+        <span class="icon title-icon">{{ icon(s.name) }}</span>
         {{ s.name }} courts
       </h1>
     } @else {
       <h1>Courts</h1>
     }
   </div>
-  <button mat-flat-button color="primary" (click)="openCreateCourtDialog()">
-    <mat-icon>add</mat-icon>
+  <button class="btn btn-primary" (click)="openCreateCourtDialog()">
+    <span class="icon">add</span>
     Add court
   </button>
 </div>
@@ -23,50 +23,44 @@
 @if (loading()) {
   <app-loading-indicator label="Loading courts..." />
 } @else if (courts().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>No courts yet for this sport. Add one to make it bookable.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>No courts yet for this sport. Add one to make it bookable.</p>
+  </div>
 } @else {
-  <table mat-table [dataSource]="courts()" class="courts-table">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Court</th>
-      <td mat-cell *matCellDef="let court">{{ court.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="pricePerSlot">
-      <th mat-header-cell *matHeaderCellDef>Price / slot</th>
-      <td mat-cell *matCellDef="let court">₹{{ court.pricePerSlot }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="active">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let court">
-        <mat-icon inline [class.status-active]="court.active" [class.status-inactive]="!court.active">
-          {{ court.active ? 'check_circle' : 'cancel' }}
-        </mat-icon>
-        {{ court.active ? 'Active' : 'Inactive' }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let court">
-        <button mat-button [routerLink]="['/owner/venues', venueId, 'courts', court.id, 'slots']">
-          <mat-icon>schedule</mat-icon>
-          Manage slots
-        </button>
-        <button mat-icon-button (click)="openEditCourtDialog(court)" aria-label="Edit court">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="deleteCourt(court)" aria-label="Delete court">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <table class="table courts-table">
+    <thead>
+      <tr>
+        <th>Court</th>
+        <th>Price / slot</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (court of courts(); track court.id) {
+        <tr>
+          <td>{{ court.name }}</td>
+          <td>₹{{ court.pricePerSlot }}</td>
+          <td>
+            <span class="icon" [class.status-active]="court.active" [class.status-inactive]="!court.active">
+              {{ court.active ? 'check_circle' : 'cancel' }}
+            </span>
+            {{ court.active ? 'Active' : 'Inactive' }}
+          </td>
+          <td class="actions-cell">
+            <a class="btn btn-ghost btn-sm" [routerLink]="['/owner/venues', venueId, 'courts', court.id, 'slots']">
+              <span class="icon">schedule</span>
+              Manage slots
+            </a>
+            <button class="btn-icon" (click)="openEditCourtDialog(court)" aria-label="Edit court">
+              <span class="icon">edit</span>
+            </button>
+            <button class="btn-icon" (click)="deleteCourt(court)" aria-label="Delete court">
+              <span class="icon">delete</span>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
   </table>
 }

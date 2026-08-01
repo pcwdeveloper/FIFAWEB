@@ -1,26 +1,10 @@
-.dialog-header {
-  padding: 10px 20px 8px;
-  border-bottom: 1px solid var(--mat-sys-outline-variant, #ccc);
+.dialog-panel {
+  width: 580px;
+  max-width: 95vw;
+}
 
-  h2 {
-    // Angular Material's own mat-dialog-title styling adds its own padding regardless of
-    // this component's styles — override explicitly rather than fight it via margins.
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-
-    mat-icon {
-      color: var(--mat-sys-tertiary);
-      font-size: 22px;
-      width: 22px;
-      height: 22px;
-    }
-  }
+.dialog-header h2 {
+  font-size: 1.2rem;
 }
 
 .month-picker {
@@ -58,20 +42,24 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 6px 10px;
-  border: 1px solid var(--mat-sys-outline-variant, #ccc);
+  border: 1px solid var(--color-outline-variant, #ccc);
   border-radius: 10px;
   transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 
   &.enabled {
-    border-color: color-mix(in srgb, var(--mat-sys-tertiary) 35%, var(--mat-sys-outline-variant, #ccc));
-    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 4%, transparent);
+    border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-outline-variant, #ccc));
+    background-color: color-mix(in srgb, var(--color-primary) 4%, transparent);
   }
 
   &:not(.enabled) {
     opacity: 0.55;
   }
 
-  mat-checkbox {
+  .category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
     flex: 1 1 100px;
   }
 
@@ -80,7 +68,7 @@
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: var(--mat-sys-tertiary);
+    color: var(--color-primary);
   }
 
   .category-name {
@@ -95,22 +83,4 @@
   .price-field {
     width: 110px;
   }
-
-  mat-form-field {
-    margin-bottom: -1.25em;
-  }
 }
-
-::ng-deep .mat-mdc-dialog-content {
-  padding-top: 8px !important;
-}
-
-// Material's default outlined field reserves 16px above/below the input (a 56px-tall field) —
-// too roomy for this dialog's compact fields, so shrink it directly.
-.month-picker ::ng-deep .mat-mdc-form-field-infix,
-.category-row ::ng-deep .mat-mdc-form-field-infix {
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-  min-height: 0 !important;
-}
-

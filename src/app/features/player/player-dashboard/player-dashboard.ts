@@ -1,26 +1,21 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue } from '../../../core/models/venue.model';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-player-dashboard',
-  imports: [RouterLink, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, LoadingIndicator],
+  imports: [RouterLink, FormsModule, LoadingIndicator],
   templateUrl: './player-dashboard.html',
   styleUrl: './player-dashboard.scss',
 })
 export class PlayerDashboard implements OnInit {
   private readonly venueService = inject(VenueService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly venues = signal<Venue[]>([]);
   readonly loading = signal(true);

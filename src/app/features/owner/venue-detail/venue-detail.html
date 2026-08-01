@@ -2,48 +2,42 @@
   <app-loading-indicator label="Loading..." />
 } @else if (venue(); as v) {
   <a routerLink="/owner" class="back-link">
-    <mat-icon>arrow_back</mat-icon>
+    <span class="icon">arrow_back</span>
     Back to my venues
   </a>
 
   <div class="page-header">
     <div>
       <h1>{{ v.name }}</h1>
-      <p class="subtitle"><mat-icon inline>location_on</mat-icon> {{ v.address }}, {{ v.city }}</p>
+      <p class="subtitle"><span class="icon">location_on</span> {{ v.address }}, {{ v.city }}</p>
     </div>
-    <mat-chip-set>
-      <mat-chip [color]="statusColor(v.status)" highlighted>{{ v.status }}</mat-chip>
-    </mat-chip-set>
+    <span class="chip" [class]="statusChipClass(v.status)">{{ v.status }}</span>
   </div>
 
   <div class="section-header">
     <h2>
-      <mat-icon class="title-icon">sports</mat-icon>
+      <span class="icon title-icon">sports</span>
       Manage sports
     </h2>
     <p class="section-subtitle">Pick a sport to manage its courts.</p>
   </div>
 
   @if (sportTiles().length === 0) {
-    <mat-card>
-      <mat-card-content>
-        <p>No sports available yet — ask an admin to add sports first.</p>
-      </mat-card-content>
-    </mat-card>
+    <div class="card">
+      <p>No sports available yet — ask an admin to add sports first.</p>
+    </div>
   } @else {
     <div class="sport-grid">
       @for (tile of sportTiles(); track tile.sport.id) {
-        <mat-card class="sport-card hoverable-card" (click)="openSport(tile.sport)">
-          <mat-card-content>
-            <div class="sport-icon">
-              <mat-icon>{{ icon(tile.sport.name) }}</mat-icon>
-            </div>
-            <h3>{{ tile.sport.name }}</h3>
-            <p class="court-count">
-              {{ tile.courtCount === 0 ? 'No courts yet' : tile.courtCount + ' court' + (tile.courtCount === 1 ? '' : 's') }}
-            </p>
-          </mat-card-content>
-        </mat-card>
+        <div class="card sport-card hoverable-card" (click)="openSport(tile.sport)">
+          <div class="sport-icon">
+            <span class="icon">{{ icon(tile.sport.name) }}</span>
+          </div>
+          <h3>{{ tile.sport.name }}</h3>
+          <p class="court-count">
+            {{ tile.courtCount === 0 ? 'No courts yet' : tile.courtCount + ' court' + (tile.courtCount === 1 ? '' : 's') }}
+          </p>
+        </div>
       }
     </div>
   }

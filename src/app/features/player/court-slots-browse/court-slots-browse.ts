@@ -1,13 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { CourtService } from '../../../core/services/court.service';
 import { SlotService } from '../../../core/services/slot.service';
@@ -25,15 +19,7 @@ function today(): string {
 
 @Component({
   selector: 'app-court-slots-browse',
-  imports: [
-    RouterLink,
-    FormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule, LoadingIndicator,],
+  imports: [RouterLink, FormsModule, LoadingIndicator],
   templateUrl: './court-slots-browse.html',
   styleUrl: './court-slots-browse.scss',
 })
@@ -45,7 +31,7 @@ export class CourtSlotsBrowse implements OnInit {
   private readonly slotService = inject(SlotService);
   private readonly bookingService = inject(BookingService);
   private readonly razorpayCheckout = inject(RazorpayCheckoutService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly venueId = Number(this.route.snapshot.paramMap.get('id'));
   readonly courtId = Number(this.route.snapshot.paramMap.get('courtId'));

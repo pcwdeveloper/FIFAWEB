@@ -1,13 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogRef } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import {
   BulkSlotCategoryConfig,
   BulkSlotRequest,
@@ -70,23 +64,14 @@ const CATEGORY_WINDOWS: Record<CategoryKey, MinuteRange> = {
 
 @Component({
   selector: 'app-bulk-slot-form-dialog',
-  imports: [
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './bulk-slot-form-dialog.html',
   styleUrl: './bulk-slot-form-dialog.scss',
 })
 export class BulkSlotFormDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<BulkSlotFormDialog>);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialogRef = inject(DialogRef<BulkSlotRequest | undefined, BulkSlotFormDialog>);
+  private readonly snackBar = inject(ToastService);
 
   readonly categoryKeys = CATEGORY_KEYS;
   readonly intervalOptions = INTERVAL_OPTIONS;

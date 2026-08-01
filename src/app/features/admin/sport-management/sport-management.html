@@ -1,62 +1,56 @@
 <a routerLink="/admin" class="back-link">
-  <mat-icon>arrow_back</mat-icon>
+  <span class="icon">arrow_back</span>
   Back to dashboard
 </a>
 
 <h1>
-  <mat-icon class="title-icon">sports_soccer</mat-icon>
+  <span class="icon title-icon">sports_soccer</span>
   Sports master data
 </h1>
 
-<mat-card class="form-card">
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="submit()" class="sport-form">
-      <mat-form-field appearance="outline">
-        <mat-label>Sport name</mat-label>
-        <input matInput formControlName="name" placeholder="e.g. Badminton" />
-        @if (form.controls.name.hasError('required') && form.controls.name.touched) {
-          <mat-error>Sport name is required</mat-error>
-        }
-      </mat-form-field>
-      <button mat-flat-button color="primary" type="submit">
-        <mat-icon>{{ editingSport() ? 'save' : 'add' }}</mat-icon>
-        {{ editingSport() ? 'Update' : 'Add sport' }}
-      </button>
-      @if (editingSport()) {
-        <button mat-button type="button" (click)="cancelEdit()">
-          <mat-icon>close</mat-icon>
-          Cancel
-        </button>
+<div class="card form-card">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="sport-form">
+    <label class="field name-field">
+      <span class="field-label">Sport name</span>
+      <input class="field-input" formControlName="name" placeholder="e.g. Badminton" />
+      @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+        <span class="field-error">Sport name is required</span>
       }
-    </form>
-  </mat-card-content>
-</mat-card>
+    </label>
+    <button class="btn btn-primary" type="submit">
+      <span class="icon">{{ editingSport() ? 'save' : 'add' }}</span>
+      {{ editingSport() ? 'Update' : 'Add sport' }}
+    </button>
+    @if (editingSport()) {
+      <button class="btn btn-ghost" type="button" (click)="cancelEdit()">
+        <span class="icon">close</span>
+        Cancel
+      </button>
+    }
+  </form>
+</div>
 
 @if (loading()) {
   <app-loading-indicator label="Loading sports..." />
 } @else if (sports().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>No sports added yet.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>No sports added yet.</p>
+  </div>
 } @else {
-  <mat-card>
-    <mat-list>
-      @for (sport of sports(); track sport.id) {
-        <mat-list-item>
-          <mat-icon matListItemIcon>{{ icon(sport) }}</mat-icon>
-          <span matListItemTitle>{{ sport.name }}</span>
-          <div matListItemMeta>
-            <button mat-icon-button (click)="startEdit(sport)" aria-label="Edit sport">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteSport(sport)" aria-label="Delete sport">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-list-item>
-      }
-    </mat-list>
-  </mat-card>
+  <div class="card item-list">
+    @for (sport of sports(); track sport.id) {
+      <div class="item-row">
+        <span class="icon item-icon">{{ icon(sport) }}</span>
+        <span class="item-title">{{ sport.name }}</span>
+        <div class="item-actions">
+          <button class="btn-icon" (click)="startEdit(sport)" aria-label="Edit sport">
+            <span class="icon">edit</span>
+          </button>
+          <button class="btn-icon" (click)="deleteSport(sport)" aria-label="Delete sport">
+            <span class="icon">delete</span>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
 }

@@ -1,11 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Dialog } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { StatsService } from '../../../core/services/stats.service';
@@ -18,7 +14,7 @@ import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indi
 
 @Component({
   selector: 'app-owner-dashboard',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, StatTile, LoadingIndicator],
+  imports: [RouterLink, StatTile, LoadingIndicator],
   templateUrl: './owner-dashboard.html',
   styleUrl: './owner-dashboard.scss',
 })
@@ -26,8 +22,8 @@ export class OwnerDashboard implements OnInit {
   protected readonly authService = inject(AuthService);
   private readonly venueService = inject(VenueService);
   private readonly statsService = inject(StatsService);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialog = inject(Dialog);
+  private readonly snackBar = inject(ToastService);
   private readonly router = inject(Router);
 
   readonly venues = signal<Venue[]>([]);
@@ -68,8 +64,8 @@ export class OwnerDashboard implements OnInit {
   }
 
   openCreateDialog(): void {
-    const ref = this.dialog.open(VenueFormDialog, { data: null });
-    ref.afterClosed().subscribe((result: VenueFormResult | undefined) => {
+    const ref = this.dialog.open<VenueFormResult>(VenueFormDialog, { data: null });
+    ref.closed.subscribe((result: VenueFormResult | undefined) => {
       if (!result) return;
       const { request, thumbnailFile } = result;
       this.venueService.create(request).subscribe({
@@ -93,8 +89,8 @@ export class OwnerDashboard implements OnInit {
   }
 
   openEditDialog(venue: Venue): void {
-    const ref = this.dialog.open(VenueFormDialog, { data: venue });
-    ref.afterClosed().subscribe((result: VenueFormResult | undefined) => {
+    const ref = this.dialog.open<VenueFormResult>(VenueFormDialog, { data: venue });
+    ref.closed.subscribe((result: VenueFormResult | undefined) => {
       if (!result) return;
       const { request, thumbnailFile } = result;
       this.venueService.update(venue.id, request).subscribe({
@@ -133,14 +129,14 @@ export class OwnerDashboard implements OnInit {
     this.router.navigate(['/owner/venues', venue.id]);
   }
 
-  statusColor(status: Venue['status']): string {
+  statusChipClass(status: Venue['status']): string {
     switch (status) {
       case 'APPROVED':
-        return 'primary';
+        return 'chip-success';
       case 'REJECTED':
-        return 'warn';
+        return 'chip-error';
       default:
-        return '';
+        return 'chip-warning';
     }
   }
 }

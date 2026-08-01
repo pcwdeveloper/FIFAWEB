@@ -1,6 +1,6 @@
 .subtitle {
   margin: 4px 0 24px;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--color-on-surface-variant);
 }
 
 .stat-row {
@@ -19,8 +19,21 @@
 .link-card {
   cursor: pointer;
 
-  mat-card-header {
-    align-items: center;
+  p {
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    font-size: 0.9rem;
+  }
+}
+
+.link-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.05rem;
   }
 }
 
@@ -32,6 +45,6 @@
   height: 40px;
   border-radius: 50%;
   margin-right: 12px;
-  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
-  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
 }

@@ -9,6 +9,8 @@
 .auth-card {
   width: 100%;
   max-width: 420px;
+  padding: 0;
+  overflow: hidden;
 }
 
 .brand {
@@ -19,7 +21,7 @@
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
 }
 
 .brand-icon {
@@ -28,21 +30,38 @@
   height: 28px;
 }
 
+.auth-card-header {
+  padding: 4px 16px 8px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.auth-card-footer {
+  padding: 8px 16px 20px;
+  font-size: 0.85rem;
+
+  a {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+}
+
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
+  padding: 8px 16px 20px;
 
-  mat-icon[matPrefix] {
-    margin-right: 8px;
-    color: var(--mat-sys-on-surface-variant);
-  }
-
-  button[type='submit'] mat-icon {
-    margin-right: 4px;
-  }
-
-  button {
+  button[type='submit'] {
     margin-top: 8px;
   }
 }

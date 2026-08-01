@@ -1,13 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { SportService } from '../../../core/services/sport.service';
 import { Sport } from '../../../core/models/sport.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
@@ -15,22 +9,14 @@ import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indi
 
 @Component({
   selector: 'app-sport-management',
-  imports: [
-    RouterLink,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule, LoadingIndicator,],
+  imports: [RouterLink, ReactiveFormsModule, LoadingIndicator],
   templateUrl: './sport-management.html',
   styleUrl: './sport-management.scss',
 })
 export class SportManagement implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly sportService = inject(SportService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly sports = signal<Sport[]>([]);
   readonly loading = signal(true);

@@ -1,5 +1,5 @@
 <a [routerLink]="['/owner/venues', venueId]" class="back-link">
-  <mat-icon>arrow_back</mat-icon>
+  <span class="icon">arrow_back</span>
   Back to venue
 </a>
 
@@ -7,7 +7,7 @@
   <div>
     @if (court(); as c) {
       <h1>
-        <mat-icon class="title-icon">{{ icon(c.sportName) }}</mat-icon>
+        <span class="icon title-icon">{{ icon(c.sportName) }}</span>
         Slots for {{ c.name }} ({{ c.sportName }})
       </h1>
     } @else {
@@ -15,16 +15,16 @@
     }
   </div>
   <div class="header-actions">
-    <button mat-button color="warn" (click)="openBulkDeleteDialog()">
-      <mat-icon>event_busy</mat-icon>
+    <button class="btn btn-ghost" (click)="openBulkDeleteDialog()">
+      <span class="icon">event_busy</span>
       Delete for month
     </button>
-    <button mat-button (click)="openBulkBlockDialog()">
-      <mat-icon>block</mat-icon>
+    <button class="btn btn-ghost" (click)="openBulkBlockDialog()">
+      <span class="icon">block</span>
       Block upcoming days
     </button>
-    <button mat-flat-button color="primary" (click)="openBulkCreateDialog()">
-      <mat-icon>event_repeat</mat-icon>
+    <button class="btn btn-primary" (click)="openBulkCreateDialog()">
+      <span class="icon">event_repeat</span>
       Generate for month
     </button>
   </div>
@@ -52,7 +52,7 @@
   }
 
   <div class="month-label">
-    <mat-icon inline>calendar_month</mat-icon>
+    <span class="icon">calendar_month</span>
     {{ monthLabel() }}
   </div>
 
@@ -72,28 +72,27 @@
   </div>
 
   @if (slotGroups().length === 0) {
-    <mat-card>
-      <mat-card-content>
-        <p>No slots on this date. Try another date, or add slots for this court.</p>
-      </mat-card-content>
-    </mat-card>
+    <div class="card">
+      <p>No slots on this date. Try another date, or add slots for this court.</p>
+    </div>
   } @else {
     <div class="selection-toolbar">
-      <mat-checkbox [checked]="allVisibleSelected()" (change)="toggleSelectAllVisible()">
+      <label class="select-all-toggle">
+        <input type="checkbox" class="checkbox" [checked]="allVisibleSelected()" (change)="toggleSelectAllVisible()" />
         Select all
-      </mat-checkbox>
+      </label>
       @if (selectedCount() > 0) {
         <span class="selection-count">{{ selectedCount() }} selected</span>
-        <button mat-button (click)="bulkBlockSelected()">
-          <mat-icon>block</mat-icon>
+        <button class="btn btn-ghost btn-sm" (click)="bulkBlockSelected()">
+          <span class="icon">block</span>
           Block selected
         </button>
-        <button mat-button (click)="bulkUnblockSelected()">
-          <mat-icon>lock_open</mat-icon>
+        <button class="btn btn-ghost btn-sm" (click)="bulkUnblockSelected()">
+          <span class="icon">lock_open</span>
           Unblock selected
         </button>
-        <button mat-button color="warn" (click)="bulkDeleteSelected()">
-          <mat-icon>delete</mat-icon>
+        <button class="btn btn-danger btn-sm" (click)="bulkDeleteSelected()">
+          <span class="icon">delete</span>
           Delete selected
         </button>
       }
@@ -102,7 +101,7 @@
     @for (group of slotGroups(); track group.timeOfDay) {
       <div class="group-header">
         <span class="group-line"></span>
-        <mat-icon inline>{{ group.icon }}</mat-icon>
+        <span class="icon">{{ group.icon }}</span>
         <span>{{ group.label }} Slots</span>
         <span class="group-line"></span>
       </div>
@@ -111,26 +110,26 @@
         @for (slot of group.slots; track slot.id) {
           <div class="slot-row">
             @if (slot.status !== 'BOOKED') {
-              <mat-checkbox [checked]="isSelected(slot)" (change)="toggleSelect(slot)" />
+              <input type="checkbox" class="checkbox" [checked]="isSelected(slot)" (change)="toggleSelect(slot)" />
             } @else {
               <span class="checkbox-spacer"></span>
             }
             <div class="slot-time">
               @if (isOngoing(slot)) {
-                <mat-chip class="ongoing-chip" highlighted>Ongoing</mat-chip>
+                <span class="chip chip-primary ongoing-chip">Ongoing</span>
               }
               {{ slot.startTime.slice(0, 5) }} - {{ slot.endTime.slice(0, 5) }}
             </div>
             <div class="slot-price">₹{{ slot.price }}</div>
-            <mat-chip [color]="statusColor(slot.status)" highlighted>{{ slot.status }}</mat-chip>
+            <span class="chip" [class]="statusChipClass(slot.status)">{{ slot.status }}</span>
             <div class="slot-actions">
               @if (slot.status !== 'BOOKED') {
-                <button mat-icon-button (click)="toggleBlock(slot)"
+                <button class="btn-icon" (click)="toggleBlock(slot)"
                         [attr.aria-label]="slot.status === 'BLOCKED' ? 'Unblock slot' : 'Block slot'">
-                  <mat-icon>{{ slot.status === 'BLOCKED' ? 'lock_open' : 'block' }}</mat-icon>
+                  <span class="icon">{{ slot.status === 'BLOCKED' ? 'lock_open' : 'block' }}</span>
                 </button>
-                <button mat-icon-button (click)="deleteSlot(slot)" aria-label="Delete slot">
-                  <mat-icon>delete</mat-icon>
+                <button class="btn-icon" (click)="deleteSlot(slot)" aria-label="Delete slot">
+                  <span class="icon">delete</span>
                 </button>
               }
             </div>

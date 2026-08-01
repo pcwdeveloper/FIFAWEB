@@ -1,22 +1,24 @@
 <div class="page-header">
   <h1>
-    <mat-icon class="title-icon">stadium</mat-icon>
+    <span class="icon title-icon">stadium</span>
     Find a venue
   </h1>
-  <button mat-button routerLink="/player/bookings">
-    <mat-icon>event</mat-icon>
+  <a class="btn btn-ghost" routerLink="/player/bookings">
+    <span class="icon">event</span>
     My bookings
-  </button>
+  </a>
 </div>
 
 <div class="search-bar">
-  <mat-form-field appearance="outline">
-    <mat-label>Filter by city</mat-label>
-    <mat-icon matPrefix>location_on</mat-icon>
-    <input matInput [(ngModel)]="cityFilter" (keyup.enter)="search()" placeholder="e.g. Pune" />
-  </mat-form-field>
-  <button mat-flat-button color="primary" (click)="search()">
-    <mat-icon>search</mat-icon>
+  <label class="field city-field">
+    <span class="field-label">Filter by city</span>
+    <div class="field-with-icon">
+      <span class="icon field-prefix-icon">location_on</span>
+      <input class="field-input" [(ngModel)]="cityFilter" (keyup.enter)="search()" placeholder="e.g. Pune" />
+    </div>
+  </label>
+  <button class="btn btn-primary" (click)="search()">
+    <span class="icon">search</span>
     Search
   </button>
 </div>
@@ -24,39 +26,37 @@
 @if (loading()) {
   <app-loading-indicator label="Loading venues..." />
 } @else if (venues().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>No venues found. Try a different city or check back later.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>No venues found. Try a different city or check back later.</p>
+  </div>
 } @else {
   <div class="venue-grid">
     @for (venue of venues(); track venue.id) {
-      <mat-card class="venue-card hoverable-card" (click)="viewCourts(venue)">
+      <div class="card venue-card hoverable-card" (click)="viewCourts(venue)">
         <div class="venue-thumbnail">
           @if (thumbnailUrl(venue); as url) {
             <img [src]="url" alt="{{ venue.name }}" />
           } @else {
-            <mat-icon>storefront</mat-icon>
+            <span class="icon">storefront</span>
           }
         </div>
-        <mat-card-header>
-          <mat-card-title>{{ venue.name }}</mat-card-title>
-          <mat-card-subtitle>{{ venue.city }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="address"><mat-icon inline>location_on</mat-icon> {{ venue.address }}</p>
+        <div class="venue-card-header">
+          <h3>{{ venue.name }}</h3>
+          <p class="venue-city">{{ venue.city }}</p>
+        </div>
+        <div class="venue-card-content">
+          <p class="address"><span class="icon">location_on</span> {{ venue.address }}</p>
           @if (venue.description) {
             <p class="description">{{ venue.description }}</p>
           }
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-button>
+        </div>
+        <div class="venue-card-actions">
+          <span class="view-courts-link">
             View courts
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+            <span class="icon">arrow_forward</span>
+          </span>
+        </div>
+      </div>
     }
   </div>
 }

@@ -1,13 +1,8 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Dialog } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { SlotService } from '../../../core/services/slot.service';
 import { CourtService } from '../../../core/services/court.service';
 import {
@@ -57,15 +52,7 @@ function toIsoDate(date: Date): string {
 
 @Component({
   selector: 'app-court-slots',
-  imports: [
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    LoadingIndicator,
-  ],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './court-slots.html',
   styleUrl: './court-slots.scss',
 })
@@ -74,8 +61,8 @@ export class CourtSlots implements OnInit {
   private readonly router = inject(Router);
   private readonly slotService = inject(SlotService);
   private readonly courtService = inject(CourtService);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialog = inject(Dialog);
+  private readonly snackBar = inject(ToastService);
 
   venueId = Number(this.route.snapshot.paramMap.get('venueId'));
   courtId = Number(this.route.snapshot.paramMap.get('courtId'));
@@ -300,8 +287,8 @@ export class CourtSlots implements OnInit {
   }
 
   openBulkCreateDialog(): void {
-    const ref = this.dialog.open(BulkSlotFormDialog, { width: '580px', maxWidth: '95vw' });
-    ref.afterClosed().subscribe((request: BulkSlotRequest | undefined) => {
+    const ref = this.dialog.open<BulkSlotRequest>(BulkSlotFormDialog, { width: '580px', maxWidth: '95vw' });
+    ref.closed.subscribe((request: BulkSlotRequest | undefined) => {
       if (!request) return;
       this.slotService.createBulk(this.courtId, request).subscribe({
         next: (result) => {
@@ -320,8 +307,8 @@ export class CourtSlots implements OnInit {
   }
 
   openBulkDeleteDialog(): void {
-    const ref = this.dialog.open(BulkSlotDeleteDialog);
-    ref.afterClosed().subscribe((request: BulkSlotDeleteRequest | undefined) => {
+    const ref = this.dialog.open<BulkSlotDeleteRequest>(BulkSlotDeleteDialog);
+    ref.closed.subscribe((request: BulkSlotDeleteRequest | undefined) => {
       if (!request) return;
       this.slotService.deleteBulk(this.courtId, request).subscribe({
         next: (result) => {
@@ -341,8 +328,8 @@ export class CourtSlots implements OnInit {
   }
 
   openBulkBlockDialog(): void {
-    const ref = this.dialog.open(BulkSlotBlockDialog);
-    ref.afterClosed().subscribe((request: BulkSlotBlockRequest | undefined) => {
+    const ref = this.dialog.open<BulkSlotBlockRequest>(BulkSlotBlockDialog);
+    ref.closed.subscribe((request: BulkSlotBlockRequest | undefined) => {
       if (!request) return;
       this.slotService.blockBulk(this.courtId, request).subscribe({
         next: (result) => {
@@ -371,14 +358,14 @@ export class CourtSlots implements OnInit {
     return slot.startTime <= now && now < slot.endTime;
   }
 
-  statusColor(status: Slot['status']): string {
+  statusChipClass(status: Slot['status']): string {
     switch (status) {
       case 'AVAILABLE':
-        return 'primary';
+        return 'chip-success';
       case 'BLOCKED':
-        return 'warn';
+        return 'chip-error';
       default:
-        return '';
+        return 'chip-primary';
     }
   }
 }

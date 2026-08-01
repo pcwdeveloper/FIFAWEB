@@ -1,10 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { BookingService } from '../../../core/services/booking.service';
 import { Booking } from '../../../core/models/booking.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
@@ -12,13 +8,13 @@ import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indi
 
 @Component({
   selector: 'app-my-bookings',
-  imports: [RouterLink, MatCardModule, MatChipsModule, MatButtonModule, MatIconModule, LoadingIndicator],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.scss',
 })
 export class MyBookings implements OnInit {
   private readonly bookingService = inject(BookingService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly bookings = signal<Booking[]>([]);
   readonly loading = signal(true);
@@ -45,14 +41,14 @@ export class MyBookings implements OnInit {
     return sportIcon(sportName);
   }
 
-  statusColor(status: Booking['status']): string {
+  statusChipClass(status: Booking['status']): string {
     switch (status) {
       case 'CONFIRMED':
-        return 'primary';
+        return 'chip-success';
       case 'CANCELLED':
-        return 'warn';
+        return 'chip-error';
       default:
-        return '';
+        return 'chip-warning';
     }
   }
 }

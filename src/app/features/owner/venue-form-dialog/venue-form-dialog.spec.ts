@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { VenueFormDialog } from './venue-form-dialog';
 
@@ -10,8 +10,8 @@ describe('VenueFormDialog', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        { provide: MatDialogRef, useValue: { close: () => {} } },
-        { provide: MAT_DIALOG_DATA, useValue: null },
+        { provide: DialogRef, useValue: { close: () => {} } },
+        { provide: DIALOG_DATA, useValue: null },
       ],
       imports: [VenueFormDialog]
     })

@@ -1,9 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { Venue, VenueRequest } from '../../../core/models/venue.model';
 
 export interface VenueFormResult {
@@ -30,15 +28,15 @@ export const VENUE_CITIES = [
 
 @Component({
   selector: 'app-venue-form-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './venue-form-dialog.html',
   styleUrl: './venue-form-dialog.scss',
 })
 export class VenueFormDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<VenueFormDialog>);
-  private readonly snackBar = inject(MatSnackBar);
-  protected readonly data = inject<Venue | null>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(DialogRef<VenueFormResult | undefined, VenueFormDialog>);
+  private readonly snackBar = inject(ToastService);
+  protected readonly data = inject<Venue | null>(DIALOG_DATA);
 
   readonly isEdit = !!this.data;
   readonly thumbnailPreviewUrl = signal<string | null>(this.data?.thumbnailUrl ?? null);

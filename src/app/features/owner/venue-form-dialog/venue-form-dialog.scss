@@ -1,17 +1,21 @@
-.dialog-header {
-  padding: 16px 24px 0;
+.dialog-panel {
+  width: 680px;
+  max-width: 95vw;
+}
 
-  h2 {
-    margin: 0;
-    font-size: 1.85rem;
-    font-weight: 800;
-  }
+.dialog-header h2 {
+  font-size: 1.85rem;
+}
 
-  .subtitle {
-    margin: 10px 0 0;
-    font-size: 1rem;
-    color: var(--mat-sys-on-surface-variant);
-  }
+.subtitle {
+  margin: 10px 0 0;
+  padding: 0 24px;
+  font-size: 1rem;
+  color: var(--color-on-surface-variant);
+}
+
+.actions-start {
+  justify-content: flex-start;
 }
 
 .thumbnail-picker {
@@ -22,22 +26,20 @@
   gap: 8px;
   height: 160px;
   margin: 20px 0 8px;
-  border: 2px dashed var(--mat-sys-outline-variant, #ccc);
+  border: 2px dashed var(--color-outline-variant, #ccc);
   border-radius: 16px;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--color-on-surface-variant);
   cursor: pointer;
   overflow: hidden;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 
   &:hover {
-    border-color: var(--mat-sys-tertiary);
-    background-color: color-mix(in srgb, var(--mat-sys-tertiary) 6%, transparent);
+    border-color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 6%, transparent);
   }
 
-  mat-icon {
+  .icon {
     font-size: 32px;
-    width: 32px;
-    height: 32px;
   }
 
   img {
@@ -74,16 +76,16 @@
   label {
     font-weight: 700;
     font-size: 0.9rem;
-    color: var(--mat-sys-tertiary);
+    color: var(--color-primary);
   }
 
   input,
   textarea,
   select {
     border: none;
-    border-bottom: 1px solid var(--mat-sys-outline-variant, #ccc);
+    border-bottom: 1px solid var(--color-outline-variant, #ccc);
     background: transparent;
-    color: var(--mat-sys-on-surface);
+    color: var(--color-on-surface);
     font: inherit;
     font-size: 1rem;
     padding: 4px 0 8px;
@@ -91,7 +93,7 @@
 
     &:focus {
       outline: none;
-      border-bottom: 2px solid var(--mat-sys-tertiary);
+      border-bottom: 2px solid var(--color-primary);
       padding-bottom: 7px;
     }
   }
@@ -108,7 +110,7 @@
 
 .field-error {
   font-size: 0.8rem;
-  color: var(--mat-sys-error);
+  color: var(--color-error);
 }
 
 .submit-button {

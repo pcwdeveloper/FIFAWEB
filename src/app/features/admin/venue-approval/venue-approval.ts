@@ -1,11 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast.service';
 import { VenueService } from '../../../core/services/venue.service';
 import { Venue, VenueStatus } from '../../../core/models/venue.model';
 import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indicator';
@@ -14,13 +9,13 @@ const TABS: (VenueStatus | 'ALL')[] = ['PENDING', 'APPROVED', 'REJECTED', 'ALL']
 
 @Component({
   selector: 'app-venue-approval',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatChipsModule, MatTabsModule, MatIconModule, LoadingIndicator],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './venue-approval.html',
   styleUrl: './venue-approval.scss',
 })
 export class VenueApproval implements OnInit {
   private readonly venueService = inject(VenueService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(ToastService);
 
   readonly tabs = TABS;
   readonly selectedTabIndex = signal(0);
@@ -75,14 +70,14 @@ export class VenueApproval implements OnInit {
     return venue.thumbnailUrl;
   }
 
-  statusColor(status: Venue['status']): string {
+  statusChipClass(status: Venue['status']): string {
     switch (status) {
       case 'APPROVED':
-        return 'primary';
+        return 'chip-success';
       case 'REJECTED':
-        return 'warn';
+        return 'chip-error';
       default:
-        return '';
+        return 'chip-warning';
     }
   }
 }

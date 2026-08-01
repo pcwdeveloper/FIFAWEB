@@ -1,52 +1,46 @@
 <a [routerLink]="['/player/venues', venueId]" class="back-link">
-  <mat-icon>arrow_back</mat-icon>
+  <span class="icon">arrow_back</span>
   Back to courts
 </a>
 
 @if (court(); as c) {
   <h1>
-    <mat-icon class="title-icon">{{ icon(c.sportName) }}</mat-icon>
+    <span class="icon title-icon">{{ icon(c.sportName) }}</span>
     {{ c.name }} — {{ c.sportName }}
   </h1>
 }
 
 <div class="date-picker">
-  <mat-form-field appearance="outline">
-    <mat-label>Date</mat-label>
-    <input matInput type="date" [(ngModel)]="selectedDate" (ngModelChange)="loadSlots()" />
-  </mat-form-field>
+  <label class="field">
+    <span class="field-label">Date</span>
+    <input class="field-input" type="date" [(ngModel)]="selectedDate" (ngModelChange)="loadSlots()" />
+  </label>
 </div>
 
 @if (loading()) {
   <app-loading-indicator label="Loading slots..." />
 } @else if (slots().length === 0) {
-  <mat-card>
-    <mat-card-content>
-      <p>No available slots on this date. Try another date.</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="card">
+    <p>No available slots on this date. Try another date.</p>
+  </div>
 } @else {
   <div class="slot-grid">
     @for (slot of slots(); track slot.id) {
-      <mat-card class="slot-card">
-        <mat-card-content>
-          <p class="time"><mat-icon inline>schedule</mat-icon> {{ slot.startTime }} – {{ slot.endTime }}</p>
-          <p class="time-of-day">{{ timeOfDayLabel(slot) }}</p>
-          <p class="price"><mat-icon inline>payments</mat-icon> ₹{{ slot.price }}</p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-flat-button color="primary" [disabled]="processingSlotId() !== null" (click)="selectSlot(slot)">
+      <div class="card slot-card">
+        <p class="time"><span class="icon">schedule</span> {{ slot.startTime }} – {{ slot.endTime }}</p>
+        <p class="time-of-day">{{ timeOfDayLabel(slot) }}</p>
+        <p class="price"><span class="icon">payments</span> ₹{{ slot.price }}</p>
+        <div class="slot-card-actions">
+          <button class="btn btn-primary" [disabled]="processingSlotId() !== null" (click)="selectSlot(slot)">
             @if (processingSlotId() === slot.id) {
-              <mat-spinner diameter="20"></mat-spinner>
+              <span class="spinner spinner-sm"></span>
             } @else {
-              <ng-container>
-                <mat-icon>event_available</mat-icon>
-                Select
-              </ng-container>
+              <span class="icon">event_available</span>
+              Select
             }
           </button>
-        </mat-card-actions>
-      </mat-card>
+        </div>
+      </div>
     }
   </div>
 }

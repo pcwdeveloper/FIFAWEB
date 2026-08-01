@@ -3,7 +3,7 @@
   align-items: center;
   gap: 4px;
   margin-bottom: 16px;
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -14,7 +14,7 @@ h1 {
 }
 
 .title-icon {
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
 }
 
 .booking-grid {
@@ -24,14 +24,38 @@ h1 {
 }
 
 .booking-card {
-  mat-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .booking-card-header {
+    display: flex;
     align-items: flex-start;
+    margin-bottom: 4px;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
+
+  .subtitle {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--color-on-surface-variant);
   }
 
   .meta {
     display: flex;
     align-items: center;
     gap: 4px;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .chip {
+    align-self: flex-start;
+    margin-top: 4px;
   }
 }
 
@@ -43,7 +67,7 @@ h1 {
   height: 40px;
   border-radius: 50%;
   margin-right: 12px;
-  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
-  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
   flex: 0 0 auto;
 }

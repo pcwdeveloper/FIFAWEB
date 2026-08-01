@@ -1,0 +1,75 @@
+// Design tokens — violet-forward palette (option "D" from the prototype comparison).
+// Violet is the dominant/structural color everywhere (buttons, icons, tags, highlights);
+// pink (`--ui-accent`) is reserved for a single narrow use — the toggle-switch accent.
+//
+// `--ui-*` are the raw tokens; `--color-*` (Tailwind-facing names, wired up via `@theme
+// inline` in styles.scss) resolve to these same values so utilities like `bg-primary` /
+// `text-on-surface` work too.
+
+@mixin light-tokens {
+  --ui-primary: #5b3fa0;
+  --ui-on-primary: #ffffff;
+  --ui-primary-container: #e2dbf2;
+  --ui-on-primary-container: #291854;
+
+  --ui-surface: #f5f2fb;
+  --ui-on-surface: #221c35;
+  --ui-surface-variant: #e6e0f4;
+  --ui-on-surface-variant: #665f80;
+  --ui-surface-container: #e6e0f4;
+  --ui-surface-container-low: #efebf8;
+  --ui-surface-container-high: #ded6ef;
+  --ui-surface-container-highest: #d3caea;
+  --ui-panel: #ffffff;
+
+  --ui-outline: #8377a0;
+  --ui-outline-variant: #d3caea;
+
+  --ui-error: #b3261e;
+  --ui-on-error: #ffffff;
+  --ui-error-container: #f9dedc;
+  --ui-on-error-container: #410e0b;
+
+  --ui-accent: #e669bd;
+  --ui-on-accent: #ffffff;
+
+  --ui-inverse-surface: #362d4d;
+  --ui-inverse-on-surface: #f2edfa;
+
+  // Deliberately lighter than the surface-container scale — form fields read as "light",
+  // not as a solid tinted block.
+  --ui-field-fill: #eee9f8;
+}
+
+@mixin dark-tokens {
+  --ui-primary: #b39ae0;
+  --ui-on-primary: #2a1b52;
+  --ui-primary-container: #423373;
+  --ui-on-primary-container: #e2dbf2;
+
+  --ui-surface: #17131f;
+  --ui-on-surface: #ece8f7;
+  --ui-surface-variant: #3a3350;
+  --ui-on-surface-variant: #b8b0d4;
+  --ui-surface-container: #221c33;
+  --ui-surface-container-low: #1c1828;
+  --ui-surface-container-high: #2b2440;
+  --ui-surface-container-highest: #362d4d;
+  --ui-panel: #1c1828;
+
+  --ui-outline: #948aa8;
+  --ui-outline-variant: #3a3350;
+
+  --ui-error: #ffb4ab;
+  --ui-on-error: #690005;
+  --ui-error-container: #93000a;
+  --ui-on-error-container: #ffdad6;
+
+  --ui-accent: #ff9edb;
+  --ui-on-accent: #2a1b52;
+
+  --ui-inverse-surface: #ece8f7;
+  --ui-inverse-on-surface: #322b47;
+
+  --ui-field-fill: #362d4d;
+}

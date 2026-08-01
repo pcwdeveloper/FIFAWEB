@@ -1,0 +1,517 @@
+// Hand-built component classes — the app's replacement for Angular Material's `mat-*`
+// components, styled directly against the `--ui-*` tokens in `tokens.scss` (see there for
+// the palette). Used with plain native elements (`<button class="btn">`, `<input
+// class="field-input">`, …) plus `@angular/cdk` primitives for anything that needs overlay/
+// focus-trap/a11y behavior (dialogs, menus) — no `@angular/material` component classes.
+
+// ---- Icons (Material Icons font, loaded independently in index.html — no mat-icon needed) ----
+.icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+// ---- Buttons ----
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, transform 0.05s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}
+
+.btn-primary {
+  background-image: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
+  color: var(--color-on-primary);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+}
+
+.btn-secondary {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-primary-container) 80%, var(--color-primary));
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-on-error);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-error) 40%, transparent);
+  }
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    color: var(--color-primary);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+}
+
+// ---- Form fields ----
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+}
+
+.field-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
+  padding: 0 12px;
+  letter-spacing: 0.02em;
+}
+
+.field-input,
+.field-select,
+.field-textarea {
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--color-on-surface);
+  background: var(--color-field-fill);
+  border: none;
+  border-bottom: 2px solid var(--color-outline-variant);
+  border-radius: 10px 10px 0 0;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  appearance: none;
+
+  &:focus {
+    border-bottom-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-field-fill));
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+    opacity: 0.7;
+  }
+}
+
+.field-select {
+  padding-right: 32px;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 16px) center, calc(100% - 11px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: var(--color-on-surface);
+  cursor: pointer;
+}
+
+// A field with a leading icon and/or trailing icon-button — e.g. email/password inputs.
+// Wraps the icon(s) and a plain `.field-input` in one shared "field" surface.
+.field-with-icon {
+  display: flex;
+  align-items: center;
+  background: var(--color-field-fill);
+  border-bottom: 2px solid var(--color-outline-variant);
+  border-radius: 10px 10px 0 0;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:focus-within {
+    border-bottom-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-field-fill));
+  }
+
+  .field-prefix-icon {
+    margin-left: 12px;
+    color: var(--color-on-surface-variant);
+    flex: 0 0 auto;
+  }
+
+  .field-input {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+
+    &:focus {
+      background: transparent;
+    }
+  }
+
+  .field-suffix-btn {
+    margin-right: 4px;
+    flex: 0 0 auto;
+  }
+}
+
+.field-hint {
+  font-size: 0.72rem;
+  color: var(--color-on-surface-variant);
+  padding: 0 12px;
+}
+
+.field-error {
+  font-size: 0.72rem;
+  color: var(--color-error);
+  padding: 0 12px;
+}
+
+// ---- Segmented control (radio-style button group, e.g. role picker) ----
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--color-surface-container);
+  border-radius: 999px;
+  gap: 2px;
+}
+
+.segmented-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: var(--color-on-surface-variant);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  .icon {
+    font-size: 18px;
+  }
+
+  &.active {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  &:hover:not(.active) {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+}
+
+// ---- Checkbox (native input, custom-styled) ----
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+// ---- Toggle switch ----
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 24px;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--color-outline-variant);
+    border-radius: 999px;
+    transition: background-color 0.18s ease;
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-panel);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.18s ease;
+  }
+
+  input:checked ~ .toggle-track {
+    background: var(--color-accent, var(--color-primary));
+  }
+
+  input:checked ~ .toggle-thumb {
+    transform: translateX(16px);
+  }
+
+  input:disabled ~ .toggle-track {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// ---- Spinner ----
+.spinner {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-primary-container);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spinner-rotate 0.75s linear infinite;
+}
+
+.spinner-sm {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+// ---- Card ----
+.card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+// ---- Chip / status tag ----
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+
+  .icon {
+    font-size: 14px;
+  }
+}
+
+.chip-primary {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.chip-neutral {
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+}
+
+.chip-success {
+  background: color-mix(in srgb, #1a7d3a 18%, var(--color-panel));
+  color: light-dark(#1a7d3a, #4ade80);
+}
+
+.chip-warning {
+  background: color-mix(in srgb, #b45309 18%, var(--color-panel));
+  color: light-dark(#b45309, #fbbf24);
+}
+
+.chip-error {
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+// ---- Table ----
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-on-surface-variant);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--color-outline-variant);
+    font-size: 0.9rem;
+  }
+
+  tbody tr:hover {
+    background: color-mix(in srgb, var(--color-primary) 4%, transparent);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// ---- Item list (e.g. a simple list of admin-managed records) ----
+.item-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-outline-variant);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .item-icon {
+    flex: 0 0 auto;
+    color: var(--color-primary);
+  }
+
+  .item-title {
+    flex: 1 1 auto;
+    font-weight: 600;
+  }
+
+  .item-actions {
+    display: flex;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+}
+
+// ---- Dialog (used with @angular/cdk/dialog's `Dialog` service) ----
+.cdk-overlay-pane .dialog-panel {
+  background: var(--color-panel);
+  color: var(--color-on-surface);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  flex: 0 0 auto;
+
+  .icon {
+    color: var(--color-primary);
+    font-size: 22px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+}
+
+.dialog-body {
+  padding: 16px 24px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--color-outline-variant);
+  flex: 0 0 auto;
+}
+
+// cdk-overlay-dark-backdrop default is pure black; soften to match the app's tone.
+.cdk-overlay-dark-backdrop {
+  background: color-mix(in srgb, var(--ui-on-surface, #221c35) 45%, transparent);
+}

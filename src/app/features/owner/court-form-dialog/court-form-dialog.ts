@@ -1,10 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Court, CourtRequest } from '../../../core/models/court.model';
 import { Sport } from '../../../core/models/sport.model';
 import { sportIcon } from '../../../core/utils/sport-icon.util';
@@ -16,14 +12,14 @@ export interface CourtFormDialogData {
 
 @Component({
   selector: 'app-court-form-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './court-form-dialog.html',
   styleUrl: './court-form-dialog.scss',
 })
 export class CourtFormDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<CourtFormDialog>);
-  protected readonly data = inject<CourtFormDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(DialogRef<CourtRequest | undefined, CourtFormDialog>);
+  protected readonly data = inject<CourtFormDialogData>(DIALOG_DATA);
 
   readonly isEdit = !!this.data.court;
   readonly sport = this.data.sport;

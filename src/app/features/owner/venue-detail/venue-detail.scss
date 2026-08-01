@@ -3,7 +3,7 @@
   align-items: center;
   gap: 4px;
   margin-bottom: 16px;
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -19,7 +19,7 @@
 
   .subtitle {
     margin: 4px 0 0;
-    color: var(--mat-sys-on-surface-variant);
+    color: var(--color-on-surface-variant);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -38,12 +38,12 @@
 
   .section-subtitle {
     margin: 4px 0 0;
-    color: var(--mat-sys-on-surface-variant);
+    color: var(--color-on-surface-variant);
   }
 }
 
 .title-icon {
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
 }
 
 .sport-grid {
@@ -55,14 +55,11 @@
 .sport-card {
   cursor: pointer;
   text-align: center;
-
-  mat-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 24px 16px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 24px 16px;
 
   h3 {
     margin: 4px 0 0;
@@ -76,18 +73,16 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
-  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
 
-  mat-icon {
+  .icon {
     font-size: 28px;
-    width: 28px;
-    height: 28px;
   }
 }
 
 .court-count {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--color-on-surface-variant);
 }

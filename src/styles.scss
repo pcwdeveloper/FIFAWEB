@@ -1,50 +1,81 @@
+@use './styles/tokens' as tokens;
+@use './styles/ui-kit';
+@import 'tailwindcss';
 
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+// Wire Tailwind's utility generator to our runtime CSS variables (`inline` keeps them as
+// `var(...)` references instead of baking in a single static value), so e.g. `bg-primary` /
+// `text-on-surface` resolve correctly in both light and dark mode.
+@theme inline {
+  --color-primary: var(--ui-primary);
+  --color-on-primary: var(--ui-on-primary);
+  --color-primary-container: var(--ui-primary-container);
+  --color-on-primary-container: var(--ui-on-primary-container);
+
+  --color-surface: var(--ui-surface);
+  --color-on-surface: var(--ui-on-surface);
+  --color-surface-variant: var(--ui-surface-variant);
+  --color-on-surface-variant: var(--ui-on-surface-variant);
+  --color-surface-container: var(--ui-surface-container);
+  --color-surface-container-low: var(--ui-surface-container-low);
+  --color-surface-container-high: var(--ui-surface-container-high);
+  --color-surface-container-highest: var(--ui-surface-container-highest);
+  --color-panel: var(--ui-panel);
+
+  --color-outline: var(--ui-outline);
+  --color-outline-variant: var(--ui-outline-variant);
+
+  --color-error: var(--ui-error);
+  --color-on-error: var(--ui-on-error);
+  --color-error-container: var(--ui-error-container);
+  --color-on-error-container: var(--ui-on-error-container);
+
+  --color-accent: var(--ui-accent);
+  --color-on-accent: var(--ui-on-accent);
+
+  --color-inverse-surface: var(--ui-inverse-surface);
+  --color-inverse-on-surface: var(--ui-inverse-on-surface);
+
+  --color-field-fill: var(--ui-field-fill);
+}
 
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$green-palette,
-      tertiary: mat.$orange-palette,
-    ),
-    typography: Manrope,
-    density: 0,
-  ));
-
   // Default to following the OS preference. `ThemeService` overrides this with an inline
   // style (`light` / `dark` / `light dark`) once the app loads, and an inline bootstrap
   // script in index.html applies the saved preference before first paint to avoid a flash.
   color-scheme: light dark;
 
-  // Override the generated tertiary tone with the exact brand orange-red (kept flat across
-  // light/dark — a brand accent, not a surface color that needs to invert).
-  --mat-sys-tertiary: #ff4e00;
-  --mat-sys-on-tertiary: #ffffff;
+  @include tokens.light-tokens;
+}
+
+:root[data-theme='dark'] {
+  @include tokens.dark-tokens;
+}
+
+:root[data-theme='light'] {
+  @include tokens.light-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) {
+    @include tokens.dark-tokens;
+  }
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: Manrope, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Manrope, Roboto, "Helvetica Neue", sans-serif; }
 
 // Smooth, un-jarring theme switches instead of an instant color snap.
-html, body, .mat-mdc-card, .mat-toolbar {
+html, body, .card, .btn, .field-input {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -57,20 +88,6 @@ h1 {
   font-size: 1.9rem;
 }
 
-// Softer, more contemporary card corners across the app.
-.mat-mdc-card {
-  border-radius: 16px !important;
-}
-
-.mat-mdc-card.mat-mdc-card-outlined {
-  border-radius: 16px !important;
-}
-
-// Larger, softer corners on dialog panels to match the rest of the app's rounded language.
-.mat-mdc-dialog-surface {
-  border-radius: 24px !important;
-}
-
 // A consistent "lift on hover" for any clickable card across the app — tinted with the
 // brand color instead of a flat gray/black shadow, for a softer, more premium feel.
 .hoverable-card {
@@ -78,15 +95,6 @@ h1 {
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--mat-sys-primary) 25%, transparent);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-primary) 25%, transparent);
   }
-}
-
-// Primary buttons get a subtle gradient instead of a flat fill, for a bit more depth.
-.mat-mdc-unelevated-button.mat-primary {
-  background-image: linear-gradient(
-    135deg,
-    var(--mat-sys-primary),
-    color-mix(in srgb, var(--mat-sys-primary) 80%, black)
-  );
 }

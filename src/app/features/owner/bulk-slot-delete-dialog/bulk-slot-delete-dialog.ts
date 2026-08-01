@@ -1,11 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogRef } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { BulkSlotDeleteRequest, TIME_OF_DAY_INFO, TimeOfDay } from '../../../core/models/slot.model';
 
 const CATEGORY_KEYS: TimeOfDay[] = ['MORNING', 'AFTERNOON', 'EVENING', 'NIGHT'];
@@ -17,14 +13,14 @@ const MONTH_NAMES = [
 
 @Component({
   selector: 'app-bulk-slot-delete-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatSelectModule, MatCheckboxModule, MatButtonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './bulk-slot-delete-dialog.html',
   styleUrl: './bulk-slot-delete-dialog.scss',
 })
 export class BulkSlotDeleteDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<BulkSlotDeleteDialog>);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialogRef = inject(DialogRef<BulkSlotDeleteRequest | undefined, BulkSlotDeleteDialog>);
+  private readonly snackBar = inject(ToastService);
 
   readonly categoryKeys = CATEGORY_KEYS;
   readonly monthNames = MONTH_NAMES;

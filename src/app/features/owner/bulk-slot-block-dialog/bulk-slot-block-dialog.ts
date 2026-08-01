@@ -1,11 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogRef } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { BulkSlotBlockRequest } from '../../../core/models/slot.model';
 
 const INTERVAL_OPTIONS = [30, 60];
@@ -25,14 +21,14 @@ function toIsoDate(date: Date): string {
 
 @Component({
   selector: 'app-bulk-slot-block-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './bulk-slot-block-dialog.html',
   styleUrl: './bulk-slot-block-dialog.scss',
 })
 export class BulkSlotBlockDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<BulkSlotBlockDialog>);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialogRef = inject(DialogRef<BulkSlotBlockRequest | undefined, BulkSlotBlockDialog>);
+  private readonly snackBar = inject(ToastService);
 
   readonly intervalOptions = INTERVAL_OPTIONS;
 

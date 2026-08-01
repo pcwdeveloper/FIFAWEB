@@ -1,57 +1,59 @@
-<div class="dialog-header">
-  <h2 mat-dialog-title>Block slots for upcoming days</h2>
+<div class="dialog-panel">
+  <div class="dialog-header">
+    <h2>Block slots for upcoming days</h2>
+  </div>
   <p class="subtitle">
     Pick a date range and a time window — every matching available slot in that window gets blocked. Booked slots
     are always left alone.
   </p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="dialog-body">
+      <div class="date-picker">
+        <label class="field date-field">
+          <span class="field-label">From date</span>
+          <input class="field-input" type="date" formControlName="startDate" />
+        </label>
+
+        <label class="field date-field">
+          <span class="field-label">To date</span>
+          <input class="field-input" type="date" formControlName="endDate" />
+        </label>
+      </div>
+
+      <div class="time-picker">
+        <label class="field interval-field">
+          <span class="field-label">Interval</span>
+          <select class="field-select" formControlName="intervalMinutes">
+            @for (minutes of intervalOptions; track minutes) {
+              <option [ngValue]="minutes">{{ minutes }} min</option>
+            }
+          </select>
+        </label>
+
+        <label class="field time-field">
+          <span class="field-label">Start</span>
+          <select class="field-select" formControlName="startTime">
+            @for (option of timeOptions(); track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field time-field">
+          <span class="field-label">End</span>
+          <select class="field-select" formControlName="endTime">
+            @for (option of timeOptions(); track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button class="btn btn-ghost" type="button" (click)="cancel()">Cancel</button>
+      <button class="btn btn-danger" type="submit">Block slots</button>
+    </div>
+  </form>
 </div>
-
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <mat-dialog-content>
-    <div class="date-picker">
-      <mat-form-field appearance="outline" class="date-field">
-        <mat-label>From date</mat-label>
-        <input matInput type="date" formControlName="startDate" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="date-field">
-        <mat-label>To date</mat-label>
-        <input matInput type="date" formControlName="endDate" />
-      </mat-form-field>
-    </div>
-
-    <div class="time-picker">
-      <mat-form-field appearance="outline" class="interval-field">
-        <mat-label>Interval</mat-label>
-        <mat-select formControlName="intervalMinutes">
-          @for (minutes of intervalOptions; track minutes) {
-            <mat-option [value]="minutes">{{ minutes }} min</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="time-field">
-        <mat-label>Start</mat-label>
-        <mat-select formControlName="startTime">
-          @for (option of timeOptions(); track option.value) {
-            <mat-option [value]="option.value">{{ option.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="time-field">
-        <mat-label>End</mat-label>
-        <mat-select formControlName="endTime">
-          @for (option of timeOptions(); track option.value) {
-            <mat-option [value]="option.value">{{ option.label }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </mat-dialog-content>
-
-  <mat-dialog-actions align="end">
-    <button mat-button type="button" (click)="cancel()">Cancel</button>
-    <button mat-flat-button color="warn" type="submit">Block slots</button>
-  </mat-dialog-actions>
-</form>

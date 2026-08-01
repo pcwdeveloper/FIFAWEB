@@ -1,12 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Dialog } from '@angular/cdk/dialog';
+import { ToastService } from '../../../core/services/toast.service';
 import { CourtService } from '../../../core/services/court.service';
 import { SportService } from '../../../core/services/sport.service';
 import { Court, CourtRequest } from '../../../core/models/court.model';
@@ -17,7 +13,7 @@ import { LoadingIndicator } from '../../../shared/loading-indicator/loading-indi
 
 @Component({
   selector: 'app-sport-courts',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatTableModule, LoadingIndicator],
+  imports: [RouterLink, LoadingIndicator],
   templateUrl: './sport-courts.html',
   styleUrl: './sport-courts.scss',
 })
@@ -25,8 +21,8 @@ export class SportCourts implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly courtService = inject(CourtService);
   private readonly sportService = inject(SportService);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly dialog = inject(Dialog);
+  private readonly snackBar = inject(ToastService);
 
   readonly venueId = Number(this.route.snapshot.paramMap.get('venueId'));
   readonly sportId = Number(this.route.snapshot.paramMap.get('sportId'));
@@ -34,8 +30,6 @@ export class SportCourts implements OnInit {
   readonly sport = signal<Sport | null>(null);
   readonly courts = signal<Court[]>([]);
   readonly loading = signal(true);
-
-  readonly displayedColumns = ['name', 'pricePerSlot', 'active', 'actions'];
 
   ngOnInit(): void {
     this.loadAll();
@@ -63,8 +57,8 @@ export class SportCourts implements OnInit {
     const sport = this.sport();
     if (!sport) return;
 
-    const ref = this.dialog.open(CourtFormDialog, { data: { court: null, sport } });
-    ref.afterClosed().subscribe((request: CourtRequest | undefined) => {
+    const ref = this.dialog.open<CourtRequest>(CourtFormDialog, { data: { court: null, sport } });
+    ref.closed.subscribe((request: CourtRequest | undefined) => {
       if (!request) return;
       this.courtService.create(this.venueId, request).subscribe({
         next: () => {
@@ -80,8 +74,8 @@ export class SportCourts implements OnInit {
     const sport = this.sport();
     if (!sport) return;
 
-    const ref = this.dialog.open(CourtFormDialog, { data: { court, sport } });
-    ref.afterClosed().subscribe((request: CourtRequest | undefined) => {
+    const ref = this.dialog.open<CourtRequest>(CourtFormDialog, { data: { court, sport } });
+    ref.closed.subscribe((request: CourtRequest | undefined) => {
       if (!request) return;
       this.courtService.update(court.id, request).subscribe({
         next: () => {

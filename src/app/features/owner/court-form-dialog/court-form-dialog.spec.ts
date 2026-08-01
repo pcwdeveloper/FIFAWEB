@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { CourtFormDialog } from './court-form-dialog';
 
@@ -10,8 +10,8 @@ describe('CourtFormDialog', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        { provide: MatDialogRef, useValue: { close: () => {} } },
-        { provide: MAT_DIALOG_DATA, useValue: { court: null, sport: { id: 1, name: 'Badminton' } } },
+        { provide: DialogRef, useValue: { close: () => {} } },
+        { provide: DIALOG_DATA, useValue: { court: null, sport: { id: 1, name: 'Badminton' } } },
       ],
       imports: [CourtFormDialog]
     })
